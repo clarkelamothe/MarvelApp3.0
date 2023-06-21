@@ -2,17 +2,39 @@ package com.example.marvelapp30
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.marvelapp30.feature_character.presentation.CharacterViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.example.marvelapp30.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private val characterViewModel: CharacterViewModel by viewModel()
-
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        characterViewModel
+        setTopBar()
+
+    }
+
+    private fun setTopBar() {
+        setSupportActionBar(binding.appbar.materialToolbar)
+
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.characterFragment, R.id.eventFragment
+            )
+        )
+
+        navHostFragment.navController.apply {
+            binding.bottomNav.setupWithNavController(this)
+            setupActionBarWithNavController(this, appBarConfiguration)
+        }
     }
 }
