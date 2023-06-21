@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/characterFragment">
+
+    <fragment
+        android:id="@+id/characterFragment"
+        android:name="com.example.marvelapp30.feature_character.presentation.CharacterFragment"
+        android:label="Character"
+        tools:layout="@layout/fragment_character" />
+
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.example.marvelapp30.featur_event.presentation.EventFragment"
+        android:label="Event"
+        tools:layout="@layout/fragment_event" />
+</navigation>
