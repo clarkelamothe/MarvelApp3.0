@@ -2,13 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/characterFragment"
-        android:enabled="true"
         android:icon="@drawable/characters_selector"
         android:title="@string/text_bottom_nav_characters" />
 
     <item
         android:id="@+id/eventFragment"
-        android:enabled="true"
         android:icon="@drawable/events_selector"
         android:title="@string/text_bottom_nav_events" />
 </menu>
