@@ -1,6 +1,7 @@
 package com.example.marvelapp30.di.modules
 
 import com.example.marvelapp30.BuildConfig
+import com.example.marvelapp30.interceptor.AuthInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
@@ -19,16 +20,22 @@ val retrofitModule = module {
     }
 
     single {
-        OkHttpClient.Builder().addInterceptor(
-            HttpLoggingInterceptor().setLevel(
-                HttpLoggingInterceptor.Level.BASIC
-            )
-        ).build()
+        OkHttpClient.Builder()
+            .addInterceptor(
+                HttpLoggingInterceptor().setLevel(
+                    HttpLoggingInterceptor.Level.BASIC
+                )
+            ).addInterceptor(
+                AuthInterceptor(
+                    get(named(Qualifier.PRIVATE_KEY)),
+                    get(named(Qualifier.PUBLIC_KEY))
+                )
+            ).build()
     }
 }
 
 enum class Qualifier {
     BASE_URL,
     PUBLIC_KEY,
-    PRIVATE_KEY
+    PRIVATE_KEY,
 }
