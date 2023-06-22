@@ -1,5 +1,6 @@
 package com.example.marvelapp30.feature_character.data.paging
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -34,14 +35,15 @@ class CharacterRemoteMediator(
                     if (lastItem == null) {
                         0
                     } else {
-                        state.config.pageSize + 20
+                        state.config.pageSize
                     }
                 }
             }
 
+            Log.d("LoadKeyey", "$loadKey")
             val characters =
                 remote.getRemoteCharacters(
-                    limit = 20,
+                    limit = 15,
                     offset = loadKey
                 ).body()?.data?.results
 

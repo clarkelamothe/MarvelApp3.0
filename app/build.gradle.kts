@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
 }
 
 android {
@@ -45,9 +46,10 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
+
     kotlinOptions {
         jvmTarget = Versions.jvmTarget
     }
@@ -88,6 +90,7 @@ dependencies {
     implementation("androidx.paging:paging-runtime:${Versions.paging}")
 
     //Room Database
+    implementation("androidx.room:room-paging:${Versions.room}")
     implementation("androidx.room:room-ktx:${Versions.room}")
-    annotationProcessor("androidx.room:room-compiler:${Versions.room}")
+    kapt("androidx.room:room-compiler:${Versions.room}")
 }
