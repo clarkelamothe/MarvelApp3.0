@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTopBar() {
+        binding.bottomNav.itemIconTintList = null
         setSupportActionBar(binding.appbar.materialToolbar)
 
         val navHostFragment =
