@@ -1,4 +1,5 @@
 object Versions {
+    val swiperefreshlayout = "1.1.0"
     const val room = "2.5.1"
     const val build = "8.0.2"
     const val jvmTarget = "18"

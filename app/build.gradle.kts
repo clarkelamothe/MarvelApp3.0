@@ -89,6 +89,9 @@ dependencies {
     // Paging
     implementation("androidx.paging:paging-runtime:${Versions.paging}")
 
+    // Swiperefreshlayout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swiperefreshlayout}")
+
     //Room Database
     implementation("androidx.room:room-paging:${Versions.room}")
     implementation("androidx.room:room-ktx:${Versions.room}")
