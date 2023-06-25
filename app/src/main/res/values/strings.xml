@@ -4,4 +4,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_bottom_nav_characters">Characters</string>
     <string name="text_bottom_nav_events">Events</string>
+    <string name="content_description_character_poster">Character Poster</string>
 </resources>

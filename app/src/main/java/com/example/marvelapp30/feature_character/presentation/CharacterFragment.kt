@@ -36,7 +36,11 @@ class CharacterFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        binding?.rvCharacter?.adapter = characterAdapter
+
+        binding?.let {
+            it.rvCharacter.adapter = characterAdapter
+            it.rvCharacter.addItemDecoration(MarginItemDecorator())
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
