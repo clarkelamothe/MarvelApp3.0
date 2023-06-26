@@ -1,4 +1,4 @@
-package com.example.marvelapp30.featur_event.data.remote
+package com.example.marvelapp30.feature_event.data.remote
 
 class EventService(
     private val eventApi: EventApi

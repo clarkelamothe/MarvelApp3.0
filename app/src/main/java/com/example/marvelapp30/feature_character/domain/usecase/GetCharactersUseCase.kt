@@ -1,4 +1,4 @@
-package com.example.marvelapp30.feature_character.domain.useCase
+package com.example.marvelapp30.feature_character.domain.usecase
 
 import com.example.marvelapp30.feature_character.domain.CharacterRepository
 

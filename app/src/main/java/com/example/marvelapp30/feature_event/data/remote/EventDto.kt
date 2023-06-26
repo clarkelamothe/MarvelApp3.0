@@ -1,4 +1,4 @@
-package com.example.marvelapp30.featur_event.data.remote
+package com.example.marvelapp30.feature_event.data.remote
 
 import com.example.marvelapp30.apiModel.Thumbnail
 

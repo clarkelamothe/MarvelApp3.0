@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.marvelapp30.feature_character.data.local.CharacterEntity
-import com.example.marvelapp30.feature_character.domain.useCase.GetCharactersUseCase
+import com.example.marvelapp30.feature_character.domain.usecase.GetCharactersUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
