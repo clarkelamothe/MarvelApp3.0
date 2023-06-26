@@ -10,5 +10,6 @@ interface EventApi {
     @GET("events")
     suspend fun getEvents(
         @Query("limit") limit: Int = 25,
+        @Query("orderBy") orderBy: String = "startDate",
     ): Response<MarvelResponse<Data<List<EventDto>>>>
 }
