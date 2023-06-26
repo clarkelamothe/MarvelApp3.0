@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/eventFragment"
-        android:name="com.example.marvelapp30.featur_event.presentation.EventFragment"
+        android:name="com.example.marvelapp30.feature_event.presentation.EventFragment"
         android:label="Event"
         tools:layout="@layout/fragment_event" />
 </navigation>

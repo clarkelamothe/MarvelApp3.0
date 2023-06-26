@@ -1,4 +1,4 @@
-package com.example.marvelapp30.featur_event.presentation
+package com.example.marvelapp30.feature_event.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
