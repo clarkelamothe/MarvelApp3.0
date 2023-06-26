@@ -1,27 +1,26 @@
 package com.example.marvelapp30.feature_character.data
 
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.example.marvelapp30.feature_character.data.local.CharacterDao
-import com.example.marvelapp30.feature_character.data.paging.CharacterRemoteMediator
+import com.example.marvelapp30.db.MarvelAppDb
+import com.example.marvelapp30.feature_character.data.paging.CharacterPagingSource
+import com.example.marvelapp30.feature_character.data.remote.CharacterService
 import com.example.marvelapp30.feature_character.domain.CharacterRepository
 
 class CharacterRepositoryImpl(
-    private val dao: CharacterDao,
-    private val characterRemoteMediator: CharacterRemoteMediator
+    private val db: MarvelAppDb,
+    private val service: CharacterService
 ) : CharacterRepository {
-    @OptIn(ExperimentalPagingApi::class)
     override suspend fun getCharacters() =
         Pager(
             config = PagingConfig(
-                pageSize = 30,
-                prefetchDistance = 15,
-                initialLoadSize = 50,
-                maxSize = 90
+                pageSize = PAGE_SIZE,
+                prefetchDistance = PREFETCH_DISTANCE,
+                maxSize = PAGE_SIZE + PREFETCH_DISTANCE * 2
             ),
-            remoteMediator = characterRemoteMediator,
-            pagingSourceFactory = { dao.pagingSource() }
+            pagingSourceFactory = { CharacterPagingSource(service) }
         )
-
 }
+
+const val PAGE_SIZE = 15
+const val PREFETCH_DISTANCE = 5
