@@ -17,7 +17,6 @@ class CharacterViewModel(
     private val _uiState = MutableStateFlow<LatestNewsUiState>(LatestNewsUiState.Loading)
     val uiState: StateFlow<LatestNewsUiState> = _uiState
 
-
     init {
         viewModelScope.launch {
             charactersUseCase()

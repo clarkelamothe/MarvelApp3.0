@@ -40,7 +40,6 @@ class CharacterAdapter :
         private val tvName = binding.characterName
         private val tvDescription = binding.characterDescription
 
-
         fun bind(character: CharacterEntity) {
             Glide.with(ivImage.context).load(character.imageUrl).into(ivImage)
             tvName.text = character.name
