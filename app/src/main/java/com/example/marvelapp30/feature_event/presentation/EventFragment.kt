@@ -1,6 +1,7 @@
 package com.example.marvelapp30.feature_event.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,12 +54,20 @@ class EventFragment : Fragment() {
     }
 
     private fun setAdapter(characters: List<EventData>) {
-        eventAdapter = EventAdapter(characters)
+        eventAdapter = EventAdapter(characters) {
+            showComicsForEvent(it)
+        }
 
         binding?.rvEvents?.let {
             it.adapter = eventAdapter
             it.addItemDecoration(MarginItemDecorator())
         }
+    }
+
+    private fun showComicsForEvent(event: EventData) {
+        // TODO:
+        Toast.makeText(context, "You clicked: ${event.id}", Toast.LENGTH_SHORT).show()
+        Log.d("Comics", "showComicsForEvent -> id: ${event.id} -> comics: ")
     }
 
     override fun onDestroy() {

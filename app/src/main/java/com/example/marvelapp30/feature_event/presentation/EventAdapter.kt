@@ -7,11 +7,14 @@ import com.bumptech.glide.Glide
 import com.example.marvelapp30.databinding.EventItemBinding
 
 class EventAdapter(
-    private val events: List<EventData>
+    private val events: List<EventData>,
+    private val onItemClicked: (EventData) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(parent.context)
-        return EventViewHolder(EventItemBinding.inflate(view, parent, false))
+        return EventViewHolder(
+            EventItemBinding.inflate(view, parent, false)
+        ) { onItemClicked(events[it]) }
     }
 
     override fun getItemCount() = events.size
@@ -21,8 +24,15 @@ class EventAdapter(
     }
 
     inner class EventViewHolder(
-        binding: EventItemBinding
+        binding: EventItemBinding,
+        onItemClicked: (Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.btExpanded.setOnClickListener {
+                onItemClicked(bindingAdapterPosition)
+            }
+        }
 
         private val ivImage = binding.eventImage
         private val tvDate = binding.eventDate
@@ -33,7 +43,7 @@ class EventAdapter(
             tvName.text = event.title
             tvDate.text = event.date
             Glide.with(ivImage.context).load(event.imageUrl).into(ivImage)
-            btExpanded.isEnabled = true
+            btExpanded.isPressed = event.isExpanded
         }
     }
 }

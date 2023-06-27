@@ -27,6 +27,7 @@ class EventViewModel(
                     val events = response.body()?.data?.results ?: emptyList()
                     _uiState.value = LatestNewsUiState.Success(events.map {
                         EventData(
+                            id = it.id,
                             title = it.title,
                             imageUrl = it.thumbnail.toUrl(),
                             date = it.start ?: "No date specified.",
@@ -43,6 +44,7 @@ class EventViewModel(
 }
 
 data class EventData(
+    val id: Int,
     val title: String,
     val imageUrl: String,
     val date: String,
