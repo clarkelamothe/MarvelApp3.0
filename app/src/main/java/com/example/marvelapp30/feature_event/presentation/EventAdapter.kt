@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.marvelapp30.databinding.EventItemBinding
 
 class EventAdapter(
-    private val events: List<UiEvent>
+    private val events: List<EventData>
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,7 +29,7 @@ class EventAdapter(
         private val tvName = binding.eventName
         private val btExpanded = binding.btExpanded
 
-        fun bind(event: UiEvent) {
+        fun bind(event: EventData) {
             tvName.text = event.title
             tvDate.text = event.date
             Glide.with(ivImage.context).load(event.imageUrl).into(ivImage)

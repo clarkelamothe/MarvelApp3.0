@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,18 +19,11 @@ class EventFragment : Fragment() {
     private val viewModel: EventViewModel by viewModel()
     private lateinit var eventAdapter: EventAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEventBinding.inflate(inflater)
-
-        viewModel.getData()
 
         return binding?.root
     }
@@ -42,7 +36,7 @@ class EventFragment : Fragment() {
                 viewModel.uiState.collect { latestNewsUiState ->
                     when (latestNewsUiState) {
                         LatestNewsUiState.Loading -> {
-                            // TODO()
+                            Toast.makeText(context, "Loading!", Toast.LENGTH_SHORT).show()
                         }
 
                         is LatestNewsUiState.Success -> {
@@ -50,7 +44,7 @@ class EventFragment : Fragment() {
                         }
 
                         is LatestNewsUiState.Error -> {
-//                            TODO()
+                            Toast.makeText(context, latestNewsUiState.msg, Toast.LENGTH_LONG).show()
                         }
                     }
                 }
@@ -58,7 +52,7 @@ class EventFragment : Fragment() {
         }
     }
 
-    private fun setAdapter(characters: List<UiEvent>) {
+    private fun setAdapter(characters: List<EventData>) {
         eventAdapter = EventAdapter(characters)
 
         binding?.rvEvents?.let {

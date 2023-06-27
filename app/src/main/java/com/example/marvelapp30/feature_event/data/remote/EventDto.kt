@@ -6,5 +6,5 @@ data class EventDto(
     val id: Int,
     val title: String,
     val thumbnail: Thumbnail,
-    val start: String
+    val start: String?
 )
