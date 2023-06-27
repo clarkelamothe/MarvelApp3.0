@@ -1,79 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="4dp"
-        android:paddingBottom="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/eventImage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="@string/content_description_event_poster"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.ImageShape"
+            tools:srcCompat="@tools:sample/avatars" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="234dp"
-            android:layout_height="0dp"
+        <TextView
+            android:id="@+id/eventName"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="30dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="@id/eventImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/eventImage"
-            app:layout_constraintTop_toTopOf="@id/eventImage">
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@id/btExpanded"
+            app:layout_constraintStart_toEndOf="@+id/eventImage"
+            app:layout_constraintTop_toTopOf="@+id/eventImage"
+            tools:text="Civil War" />
 
-            <TextView
-                android:id="@+id/eventName"
-                style="@style/TextAppearance.MaterialComponents.Headline5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textSize="24sp"
-                tools:text="Civil War" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="9dp" />
-
-            <TextView
-                android:id="@+id/eventDate"
-                style="@style/TextAppearance.MaterialComponents.Body2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                tools:text="9 de Agosto 2020" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/arrow"
+        <TextView
+            android:id="@+id/eventDate"
+            style="@style/TextAppearance.MaterialComponents.Body2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/white"
-            android:contentDescription="@string/content_description_expand_button"
-            android:src="@drawable/ic_baseline_keyboard_arrow_up_24"
-            app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout"
-            app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="@+id/eventImage"
+            app:layout_constraintEnd_toEndOf="@+id/eventName"
+            app:layout_constraintStart_toStartOf="@+id/eventName"
+            app:layout_constraintTop_toBottomOf="@+id/eventName"
+            tools:text="9 de Agosto 2022" />
 
+        <ImageButton
+            android:id="@+id/btExpanded"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:paddingStart="8dp"
+            android:contentDescription="@string/content_description_expand_button"
+            android:paddingEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/eventDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/eventName"
+            app:srcCompat="@drawable/expanded_selector" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

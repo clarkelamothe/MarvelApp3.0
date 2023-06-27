@@ -1,4 +1,4 @@
-package com.example.marvelapp30.feature_character.presentation
+package com.example.marvelapp30.utils
 
 import android.graphics.Rect
 import android.view.View
