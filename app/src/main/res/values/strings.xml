@@ -5,4 +5,6 @@
     <string name="text_bottom_nav_characters">Characters</string>
     <string name="text_bottom_nav_events">Events</string>
     <string name="content_description_character_poster">Character Poster</string>
+    <string name="content_description_event_poster">Event Poster</string>
+    <string name="content_description_expand_button">Expand Button</string>
 </resources>
