@@ -5,13 +5,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.marvelapp30.databinding.FragmentEventBinding
 import com.example.marvelapp30.utils.MarginItemDecorator
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,12 +34,14 @@ class EventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getData()
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { latestNewsUiState ->
+                viewModel.uiState.collectLatest { latestNewsUiState ->
                     when (latestNewsUiState) {
                         LatestNewsUiState.Loading -> {
-                            Toast.makeText(context, "Loading!", Toast.LENGTH_SHORT).show()
+                            binding?.inLoading?.loading?.isVisible = true
                         }
 
                         is LatestNewsUiState.Success -> {
@@ -45,7 +49,7 @@ class EventFragment : Fragment() {
                         }
 
                         is LatestNewsUiState.Error -> {
-                            Toast.makeText(context, latestNewsUiState.msg, Toast.LENGTH_LONG).show()
+                            showError(latestNewsUiState.msg)
                         }
                     }
                 }
@@ -53,7 +57,21 @@ class EventFragment : Fragment() {
         }
     }
 
+    private fun showError(msg: String?) {
+        binding?.inLoading?.loading?.isVisible = false
+
+        binding?.root?.let { it1 ->
+            Snackbar.make(
+                it1,
+                msg ?: "Something went wrong!",
+                Snackbar.LENGTH_INDEFINITE
+            ).setAction("RETRY") { viewModel.getData() }.show()
+        }
+    }
+
     private fun setAdapter(characters: List<EventData>) {
+        binding?.inLoading?.loading?.isVisible = false
+
         eventAdapter = EventAdapter(characters) {
             showComicsForEvent(it)
         }

@@ -16,27 +16,25 @@ class EventViewModel(
     private val _uiState = MutableStateFlow<LatestNewsUiState>(LatestNewsUiState.Loading)
     val uiState: StateFlow<LatestNewsUiState> = _uiState
 
-    init {
-        getData()
-    }
-
-    private fun getData() {
+    fun getData() {
         viewModelScope.launch {
-            val response = getEventsUseCase()
-
             try {
-                if (response.isSuccessful) {
-                    val events = response.body()?.data?.results ?: emptyList()
-                    _uiState.value = LatestNewsUiState.Success(events.map {
-                        EventData(
-                            id = it.id,
-                            title = it.title,
-                            imageUrl = it.thumbnail.toUrl(),
-                            date = setFormattedEventDateUseCase(it.start),
-                            list = emptyList<Any>()
-                        )
-                    })
-                } else _uiState.value = LatestNewsUiState.Error(response.message())
+                val response = getEventsUseCase()
+
+                if (!response.isSuccessful) {
+                    _uiState.value = LatestNewsUiState.Error(response.message())
+                }
+
+                val events = response.body()?.data?.results ?: emptyList()
+                _uiState.value = LatestNewsUiState.Success(events.map {
+                    EventData(
+                        id = it.id,
+                        title = it.title,
+                        imageUrl = it.thumbnail.toUrl(),
+                        date = setFormattedEventDateUseCase(it.start),
+                        list = emptyList<Any>()
+                    )
+                })
 
             } catch (e: Exception) {
                 LatestNewsUiState.Error(e.localizedMessage)

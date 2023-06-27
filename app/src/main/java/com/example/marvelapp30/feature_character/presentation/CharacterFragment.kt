@@ -44,7 +44,7 @@ class CharacterFragment : Fragment() {
     private fun setLoadingState() {
         viewLifecycleOwner.lifecycleScope.launch {
             characterAdapter.loadStateFlow.collectLatest {
-                binding?.loading?.isVisible = it.refresh is LoadState.Loading
+                binding?.inLoading?.loading?.isVisible = it.refresh is LoadState.Loading
                 if (it.refresh is LoadState.Error) {
                     binding?.root?.let { it1 ->
                         Snackbar.make(
