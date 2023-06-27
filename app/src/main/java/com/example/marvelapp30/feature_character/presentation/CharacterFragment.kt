@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import com.example.marvelapp30.databinding.FragmentCharacterBinding
 import com.example.marvelapp30.utils.MarginItemDecorator
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,8 +36,26 @@ class CharacterFragment : Fragment() {
         binding = FragmentCharacterBinding.inflate(inflater)
 
         setAdapter()
+        setLoadingState()
 
         return binding?.root
+    }
+
+    private fun setLoadingState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            characterAdapter.loadStateFlow.collectLatest {
+                binding?.loading?.isVisible = it.refresh is LoadState.Loading
+                if (it.refresh is LoadState.Error) {
+                    binding?.root?.let { it1 ->
+                        Snackbar.make(
+                            it1,
+                            "Something went wrong!",
+                            Snackbar.LENGTH_INDEFINITE
+                        ).setAction("RETRY") { characterAdapter.refresh() }.show()
+                    }
+                }
+            }
+        }
     }
 
     private fun setAdapter() {

@@ -30,5 +30,6 @@ class CharacterViewModel(
     sealed class LatestNewsUiState {
         object Loading : LatestNewsUiState()
         data class Success(val characters: PagingData<CharacterEntity>) : LatestNewsUiState()
+//        data class Error(val msg: String) : LatestNewsUiState()
     }
 }
