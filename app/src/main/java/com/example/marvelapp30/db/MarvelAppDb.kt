@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.marvelapp30.feature_character.data.local.CharacterDao
 import com.example.marvelapp30.feature_character.data.local.CharacterEntity
+import com.example.marvelapp30.utils.Constants
 
 @Database(
     version = 1,
@@ -23,9 +24,8 @@ abstract class MarvelAppDb : RoomDatabase() {
         private var Instance: MarvelAppDb? = null
 
         fun getDatabase(context: Context): MarvelAppDb {
-            // if the Instance is not null, return it, otherwise create a new database instance.
             return Instance ?: synchronized(this) {
-                Room.databaseBuilder(context, MarvelAppDb::class.java, "marvel-app-db")
+                Room.databaseBuilder(context, MarvelAppDb::class.java, Constants.DB_NAME)
                     .build()
                     .also { Instance = it }
             }

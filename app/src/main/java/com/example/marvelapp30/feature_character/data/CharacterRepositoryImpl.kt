@@ -6,6 +6,7 @@ import com.example.marvelapp30.db.MarvelAppDb
 import com.example.marvelapp30.feature_character.data.paging.CharacterPagingSource
 import com.example.marvelapp30.feature_character.data.remote.CharacterService
 import com.example.marvelapp30.feature_character.domain.CharacterRepository
+import com.example.marvelapp30.utils.Constants
 
 class CharacterRepositoryImpl(
     private val db: MarvelAppDb,
@@ -22,5 +23,5 @@ class CharacterRepositoryImpl(
         )
 }
 
-const val PAGE_SIZE = 15
-const val PREFETCH_DISTANCE = 5
+const val PAGE_SIZE = Constants.CHARACTER_DEFAULT_PAGE_SIZE
+const val PREFETCH_DISTANCE = Constants.CHARACTER_DEFAULT_PREFETCH_DISTANCE

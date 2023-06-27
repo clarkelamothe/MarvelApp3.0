@@ -66,7 +66,6 @@ class EventFragment : Fragment() {
 
     private fun showComicsForEvent(event: EventData) {
         // TODO:
-        Toast.makeText(context, "You clicked: ${event.id}", Toast.LENGTH_SHORT).show()
         Log.d("Comics", "showComicsForEvent -> id: ${event.id} -> comics: ")
     }
 
