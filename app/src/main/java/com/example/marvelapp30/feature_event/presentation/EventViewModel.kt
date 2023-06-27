@@ -3,13 +3,15 @@ package com.example.marvelapp30.feature_event.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marvelapp30.feature_event.domain.usecase.GetEventsUseCase
+import com.example.marvelapp30.feature_event.domain.usecase.SetFormattedEventDateUseCase
 import com.example.marvelapp30.utils.toUrl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class EventViewModel(
-    private val getEventsUseCase: GetEventsUseCase
+    private val getEventsUseCase: GetEventsUseCase,
+    private val setFormattedEventDateUseCase: SetFormattedEventDateUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<LatestNewsUiState>(LatestNewsUiState.Loading)
     val uiState: StateFlow<LatestNewsUiState> = _uiState
@@ -30,7 +32,7 @@ class EventViewModel(
                             id = it.id,
                             title = it.title,
                             imageUrl = it.thumbnail.toUrl(),
-                            date = it.start ?: "No date specified.",
+                            date = setFormattedEventDateUseCase(it.start),
                             list = emptyList<Any>()
                         )
                     })
