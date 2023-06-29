@@ -8,6 +8,7 @@ import com.example.marvelapp30.feature_character.data.local.CharacterEntity
 import com.example.marvelapp30.feature_character.domain.usecase.GetCharactersUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class CharacterViewModel(
@@ -21,6 +22,7 @@ class CharacterViewModel(
         viewModelScope.launch {
             charactersUseCase()
                 .cachedIn(this)
+                .catch { LatestNewsUiState.Error(it.message.toString()) }
                 .collect {
                     _uiState.value = LatestNewsUiState.Success(it)
                 }
@@ -30,6 +32,6 @@ class CharacterViewModel(
     sealed class LatestNewsUiState {
         object Loading : LatestNewsUiState()
         data class Success(val characters: PagingData<CharacterEntity>) : LatestNewsUiState()
-//        data class Error(val msg: String) : LatestNewsUiState()
+        data class Error(val msg: String) : LatestNewsUiState()
     }
 }
