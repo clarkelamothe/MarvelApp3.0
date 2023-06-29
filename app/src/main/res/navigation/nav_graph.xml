@@ -22,6 +22,5 @@
     <fragment
         android:id="@+id/characterDetailFragment"
         android:name="com.example.marvelapp30.feature_character_details.presentation.CharacterDetailFragment"
-        android:label="Character Details"
         tools:layout="@layout/fragment_character_detail" />
 </navigation>
