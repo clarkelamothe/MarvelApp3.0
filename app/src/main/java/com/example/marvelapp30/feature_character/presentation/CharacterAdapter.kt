@@ -9,8 +9,9 @@ import com.bumptech.glide.Glide
 import com.example.marvelapp30.databinding.CharacterItemBinding
 import com.example.marvelapp30.feature_character.data.local.CharacterEntity
 
-class CharacterAdapter :
-    PagingDataAdapter<CharacterEntity, CharacterAdapter.CharacterViewHolder>(CharacterComparator) {
+class CharacterAdapter(
+    private val onItemClick: (CharacterEntity) -> Unit
+) : PagingDataAdapter<CharacterEntity, CharacterAdapter.CharacterViewHolder>(CharacterComparator) {
     object CharacterComparator : DiffUtil.ItemCallback<CharacterEntity>() {
         override fun areItemsTheSame(oldItem: CharacterEntity, newItem: CharacterEntity) =
             oldItem.id == newItem.id
@@ -35,6 +36,14 @@ class CharacterAdapter :
 
     inner class CharacterViewHolder(binding: CharacterItemBinding) :
         ViewHolder(binding.root) {
+
+        init {
+            itemView.setOnClickListener {
+                getItem(bindingAdapterPosition)?.let { character ->
+                    onItemClick(character)
+                }
+            }
+        }
 
         private val ivImage = binding.characterImage
         private val tvName = binding.characterName

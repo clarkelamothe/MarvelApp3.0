@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.FragmentCharacterBinding
 import com.example.marvelapp30.utils.MarginItemDecorator
 import com.google.android.material.snackbar.Snackbar
@@ -26,7 +28,13 @@ class CharacterFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        characterAdapter = CharacterAdapter()
+        characterAdapter = CharacterAdapter {
+            goToDetails()
+        }
+    }
+
+    private fun goToDetails() {
+        findNavController().navigate(R.id.goToDetail)
     }
 
     override fun onCreateView(
