@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.FragmentCharacterBinding
+import com.example.marvelapp30.feature_character.data.local.CharacterEntity
 import com.example.marvelapp30.utils.MarginItemDecorator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
@@ -30,12 +31,15 @@ class CharacterFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         characterAdapter = CharacterAdapter {
-            goToDetails()
+            goToDetails(it)
         }
     }
 
-    private fun goToDetails() {
-        findNavController().navigate(R.id.goToDetail)
+    private fun goToDetails(character: CharacterEntity) {
+        R.id.goToDetail
+        findNavController().navigate(
+            CharacterFragmentDirections.goToDetail(character)
+        )
     }
 
     override fun onCreateView(

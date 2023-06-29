@@ -7,4 +7,5 @@
     <string name="content_description_character_poster">Character Poster</string>
     <string name="content_description_event_poster">Event Poster</string>
     <string name="content_description_expand_button">Expand Button</string>
+    <string name="appears_in_these_comics">appears in these comics</string>
 </resources>

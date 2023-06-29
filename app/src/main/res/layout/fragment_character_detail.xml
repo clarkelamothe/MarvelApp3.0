@@ -9,10 +9,11 @@
     <ImageView
         android:id="@+id/characterImage"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/content_description_character_poster"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,13 +40,13 @@
         style="@style/TextAppearance.Material3.ActionBar.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
+        android:text="@string/appears_in_these_comics"
         android:textAllCaps="true"
         app:layout_constraintEnd_toEndOf="@+id/characterDescription"
         app:layout_constraintStart_toStartOf="@+id/characterDescription"
-        app:layout_constraintTop_toBottomOf="@+id/characterDescription"
-        tools:text="APPEARS IN THESE COMICS" />
+        app:layout_constraintTop_toBottomOf="@+id/characterDescription" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_comics"
@@ -61,4 +62,11 @@
         app:layout_constraintTop_toBottomOf="@+id/comicsTitle"
         tools:itemCount="20"
         tools:listitem="@layout/comic_item" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
 </androidx.constraintlayout.widget.ConstraintLayout>
