@@ -1,4 +1,6 @@
 object Versions {
+    const val serialization = "1.4.1"
+    const val navVersion = "2.6.0"
     val swiperefreshlayout = "1.1.0"
     const val room = "2.5.1"
     const val build = "8.0.2"

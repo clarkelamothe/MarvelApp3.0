@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     id("com.android.application")
+    id("androidx.navigation.safeargs")
     kotlin("android")
     kotlin("kapt")
 }
@@ -96,4 +97,7 @@ dependencies {
     implementation("androidx.room:room-paging:${Versions.room}")
     implementation("androidx.room:room-ktx:${Versions.room}")
     kapt("androidx.room:room-compiler:${Versions.room}")
+
+    // Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 }
