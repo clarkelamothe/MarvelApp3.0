@@ -5,9 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.marvelapp30.R
+import com.example.marvelapp30.databinding.FragmentCharacterDetailBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CharacterDetailFragment : Fragment() {
+
+    private var binding: FragmentCharacterDetailBinding? = null
+    private val viewModel: CharacterDetailViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +21,12 @@ class CharacterDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_character_detail, container, false)
+        binding = FragmentCharacterDetailBinding.inflate(inflater)
+        return binding?.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 }
