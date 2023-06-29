@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.FragmentCharacterDetailBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -30,7 +31,10 @@ class CharacterDetailFragment : Fragment() {
     }
 
     private fun setActionBar() {
-        (activity as AppCompatActivity).supportActionBar?.title = "My New Title"
+        (activity as AppCompatActivity).supportActionBar?.let {
+            it.title = "My New Title"
+            it.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
+        }
     }
 
     override fun onDestroy() {

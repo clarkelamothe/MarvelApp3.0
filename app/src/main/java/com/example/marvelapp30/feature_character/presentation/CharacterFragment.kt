@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -42,6 +43,8 @@ class CharacterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCharacterBinding.inflate(inflater)
+
+        (activity as AppCompatActivity).supportActionBar?.title = "Marvel Challenge"
 
         setAdapter()
         setLoadingState()

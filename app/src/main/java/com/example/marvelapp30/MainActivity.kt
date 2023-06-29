@@ -2,6 +2,7 @@ package com.example.marvelapp30
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -37,5 +38,9 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNav.setupWithNavController(this)
             setupActionBarWithNavController(this, appBarConfiguration)
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return findNavController(R.id.fragment_container).navigateUp() || super.onSupportNavigateUp()
     }
 }

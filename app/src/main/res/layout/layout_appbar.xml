@@ -17,8 +17,7 @@
             android:id="@+id/materialToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black"
-            app:navigationIcon="@drawable/ic_baseline_close_24"
+            android:background="?attr/colorPrimary"
             app:titleCentered="true"
             app:titleTextColor="@color/white"
             tools:title="Marvel Challenge" />
