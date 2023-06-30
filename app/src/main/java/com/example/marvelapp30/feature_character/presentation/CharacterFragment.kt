@@ -20,6 +20,8 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import retrofit2.HttpException
+import java.io.IOException
 
 class CharacterFragment : Fragment() {
 
@@ -58,15 +60,26 @@ class CharacterFragment : Fragment() {
 
     private fun setLoadingState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            characterAdapter.loadStateFlow.collectLatest {
-                binding?.inLoading?.loading?.isVisible = it.refresh is LoadState.Loading
-                if (it.refresh is LoadState.Error) {
-                    binding?.root?.let { it1 ->
-                        Snackbar.make(
-                            it1,
-                            "Something went wrong!",
-                            Snackbar.LENGTH_INDEFINITE
-                        ).setAction("RETRY") { characterAdapter.refresh() }.show()
+            characterAdapter.loadStateFlow.collectLatest { loadState ->
+                binding?.inLoading?.loading?.isVisible = loadState.refresh is LoadState.Loading
+
+                val errorState = when {
+                    loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+
+                    else -> null
+                }
+
+                when (val throwable = errorState?.error) {
+                    is IOException, is HttpException -> {
+                        binding?.rvCharacter?.let { rv ->
+                            Snackbar.make(
+                                rv,
+                                throwable.message.toString(),
+                                Snackbar.LENGTH_INDEFINITE
+                            ).setAction("RETRY") { characterAdapter.refresh() }.show()
+                        }
                     }
                 }
             }
@@ -82,15 +95,8 @@ class CharacterFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                viewModel.uiState.collect { uiState ->
-                    when (uiState) {
-                        is CharacterViewModel.LatestNewsUiState.Success -> {
-                            characterAdapter.submitData(uiState.characters)
-                        }
-
-                        else -> {}
-                    }
+                viewModel.characters.collectLatest {
+                    characterAdapter.submitData(it)
                 }
             }
         }

@@ -27,11 +27,12 @@ class CharacterAdapter(
         viewType: Int
     ): CharacterViewHolder {
         val view = LayoutInflater.from(parent.context)
-        return CharacterViewHolder(CharacterItemBinding.inflate(view))
+        return CharacterViewHolder(CharacterItemBinding.inflate(view, parent, false))
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
+        holder.setIsRecyclable(true)
     }
 
     inner class CharacterViewHolder(binding: CharacterItemBinding) :

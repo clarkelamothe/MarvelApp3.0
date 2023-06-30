@@ -12,7 +12,7 @@ class CharacterRepositoryImpl(
     private val db: MarvelAppDb,
     private val service: CharacterService
 ) : CharacterRepository {
-    override suspend fun getCharacters() =
+    override fun getCharacters() =
         Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
