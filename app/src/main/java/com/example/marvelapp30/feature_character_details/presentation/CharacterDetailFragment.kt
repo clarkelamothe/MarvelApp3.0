@@ -31,8 +31,6 @@ class CharacterDetailFragment : Fragment() {
         setActionBar()
         designUi()
 
-        viewModel
-
         return binding?.root
     }
 
