@@ -25,4 +25,10 @@
         <item name="cornerSizeBottomLeft">4dp</item>
         <item name="cornerFamilyBottomLeft">rounded</item>
     </style>
+
+    <style name="Theme.App.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/red</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.MarvelApp30</item>
+    </style>
 </resources>
