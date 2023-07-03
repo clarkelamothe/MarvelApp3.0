@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">MarvelApp3.0</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_bottom_nav_characters">Characters</string>
     <string name="text_bottom_nav_events">Events</string>
     <string name="content_description_character_poster">Character Poster</string>
     <string name="content_description_event_poster">Event Poster</string>
     <string name="content_description_expand_button">Expand Button</string>
     <string name="appears_in_these_comics">appears in these comics</string>
+
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">1:669201029417:android:38e9f1541a1ce45cc17f38</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb1:669201029417:android:38e9f1541a1ce45cc17f38</string>
 </resources>

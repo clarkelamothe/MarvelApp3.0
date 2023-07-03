@@ -5,6 +5,7 @@ plugins {
     id("androidx.navigation.safeargs")
     kotlin("android")
     kotlin("kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -100,4 +101,12 @@ dependencies {
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+
+    // Firebase
+    implementation("com.firebaseui:firebase-ui-auth:${Versions.firebaseUi}")
+    implementation("com.facebook.android:facebook-android-sdk:${Versions.facebook}")
+    implementation("com.google.firebase:firebase-auth-ktx:${Versions.firebaseAuth}")
+
+    implementation("androidx.work:work-runtime:2.8.1")
+
 }
