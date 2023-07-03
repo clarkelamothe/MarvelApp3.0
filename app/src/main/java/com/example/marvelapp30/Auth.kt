@@ -62,7 +62,9 @@ class Auth : AppCompatActivity() {
             // Successfully signed in
             val user = FirebaseAuth.getInstance().currentUser
             // ...
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("USER", user)
+            }
             startActivity(intent)
 
         } else {
@@ -70,9 +72,10 @@ class Auth : AppCompatActivity() {
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
             // ...
+
             Snackbar.make(
                 binding.root,
-                "Something went wrong!",
+                response?.error?.message ?: "Something went wrong!",
                 Snackbar.LENGTH_LONG
             ).show()
         }
