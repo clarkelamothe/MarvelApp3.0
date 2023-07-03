@@ -1,4 +1,4 @@
-package com.example.marvelapp30.feature_character_details.presentation
+package com.example.marvelapp30.feature_character.presentation.detail
 
 import androidx.lifecycle.ViewModel
 

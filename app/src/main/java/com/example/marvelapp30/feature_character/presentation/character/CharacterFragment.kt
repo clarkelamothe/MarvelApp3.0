@@ -1,4 +1,4 @@
-package com.example.marvelapp30.feature_character.presentation
+package com.example.marvelapp30.feature_character.presentation.character
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +16,7 @@ import androidx.paging.LoadState
 import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.FragmentCharacterBinding
 import com.example.marvelapp30.feature_character.data.local.CharacterEntity
+import com.example.marvelapp30.feature_character.presentation.CharacterFragmentDirections
 import com.example.marvelapp30.utils.MarginItemDecorator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest

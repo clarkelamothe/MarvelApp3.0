@@ -1,4 +1,4 @@
-package com.example.marvelapp30.feature_character_details.presentation
+package com.example.marvelapp30.feature_character.presentation.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.FragmentCharacterDetailBinding
+import com.example.marvelapp30.feature_character_details.presentation.CharacterDetailFragmentArgs
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CharacterDetailFragment : Fragment() {
