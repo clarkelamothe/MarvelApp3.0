@@ -16,7 +16,6 @@ import androidx.paging.LoadState
 import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.FragmentCharacterBinding
 import com.example.marvelapp30.feature_character.data.local.CharacterEntity
-import com.example.marvelapp30.feature_character.presentation.CharacterFragmentDirections
 import com.example.marvelapp30.utils.MarginItemDecorator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
@@ -69,7 +68,6 @@ class CharacterFragment : Fragment() {
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
                     loadState.append is LoadState.Error -> loadState.append as LoadState.Error
                     loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
-
                     else -> null
                 }
 
@@ -84,7 +82,7 @@ class CharacterFragment : Fragment() {
                         }
                     }
 
-                    else -> {
+                    is NullPointerException -> {
                         Toast.makeText(context, "Something happened!", Toast.LENGTH_SHORT).show()
                     }
                 }
