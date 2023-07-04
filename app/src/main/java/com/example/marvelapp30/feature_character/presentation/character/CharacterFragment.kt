@@ -51,7 +51,7 @@ class CharacterFragment : Fragment() {
     ): View? {
         binding = FragmentCharacterBinding.inflate(inflater)
 
-        (activity as AppCompatActivity).supportActionBar?.title = "Marvel Challenge"
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.main_title)
 
         setAdapter()
         setLoadingState()
@@ -76,14 +76,18 @@ class CharacterFragment : Fragment() {
                         binding?.rvCharacter?.let { rv ->
                             Snackbar.make(
                                 rv,
-                                throwable.message.toString(),
+                                throwable.message ?: getString(R.string.error_generic),
                                 Snackbar.LENGTH_INDEFINITE
-                            ).setAction("RETRY") { characterAdapter.refresh() }.show()
+                            ).setAction(getString(R.string.retry_snackbar_action)) { characterAdapter.refresh() }.show()
                         }
                     }
 
                     is NullPointerException -> {
-                        Toast.makeText(context, "Something happened!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            getString(R.string.error_generic),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }

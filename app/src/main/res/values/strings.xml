@@ -6,6 +6,9 @@
     <string name="content_description_event_poster">Event Poster</string>
     <string name="content_description_expand_button">Expand Button</string>
     <string name="appears_in_these_comics">appears in these comics</string>
+    <string name="error_generic">Oops! Something happened.</string>
+    <string name="main_title">Marvel Challenge</string>
+    <string name="retry_snackbar_action">RETRY</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">1:669201029417:android:38e9f1541a1ce45cc17f38</string>

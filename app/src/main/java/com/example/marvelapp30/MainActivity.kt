@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setTopBar()
-
     }
 
     private fun setTopBar() {

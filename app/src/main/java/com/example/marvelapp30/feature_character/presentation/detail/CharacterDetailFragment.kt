@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.bumptech.glide.Glide
 import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.FragmentCharacterDetailBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -36,9 +37,10 @@ class CharacterDetailFragment : Fragment() {
     ): View? {
         binding = FragmentCharacterDetailBinding.inflate(inflater)
 
-
         setActionBar()
         designUi()
+        getComics()
+        setCollector()
 
         return binding?.root
     }
@@ -50,14 +52,9 @@ class CharacterDetailFragment : Fragment() {
 
             it.characterDescription.text = args.character.description
         }
-
-        showComics()
     }
 
-    private fun showComics() {
-
-        viewModel.getComics(args.character.id)
-
+    private fun setCollector() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.uiState.collect { uiState ->
@@ -79,11 +76,24 @@ class CharacterDetailFragment : Fragment() {
 
                         is ComicState.Error -> {
                             showLoading(false)
+                            binding?.rvComics?.let {
+                                Snackbar.make(
+                                    it,
+                                    uiState.msg ?: getString(R.string.error_generic),
+                                    Snackbar.LENGTH_INDEFINITE
+                                )
+                                    .setAction(getString(R.string.retry_snackbar_action)) { getComics() }
+                                    .show()
+                            }
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun getComics() {
+        viewModel.getComics(args.character.id)
     }
 
     private fun showLoading(show: Boolean) {

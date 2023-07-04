@@ -25,7 +25,7 @@ class CharacterDetailViewModel(
                 comicsUseCase(id)
                     .catch {
                         _uiState.value = ComicState.Error(
-                            it.message ?: "Something went wrong!"
+                            it.message
                         )
                     }
                     .collectLatest {
@@ -34,7 +34,7 @@ class CharacterDetailViewModel(
                                 ComicState.Success(it.data as List<Comic>)
 
                             is Error -> _uiState.value = ComicState.Error(
-                                it.exception.message ?: "Something went wrong!"
+                                it.exception.message
                             )
                         }
                     }
@@ -45,6 +45,6 @@ class CharacterDetailViewModel(
 
 sealed class ComicState {
     data class Success(val comics: List<Comic>) : ComicState()
-    data class Error(val msg: String) : ComicState()
+    data class Error(val msg: String?) : ComicState()
     object Loading : ComicState()
 }

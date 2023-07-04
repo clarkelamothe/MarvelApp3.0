@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.FragmentEventBinding
 import com.example.marvelapp30.utils.MarginItemDecorator
 import com.google.android.material.snackbar.Snackbar
@@ -35,7 +36,7 @@ class EventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity).supportActionBar?.title = "Marvel Challenge"
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.main_title)
 
         viewModel.getData()
 
@@ -44,14 +45,16 @@ class EventFragment : Fragment() {
                 viewModel.uiState.collectLatest { latestNewsUiState ->
                     when (latestNewsUiState) {
                         LatestNewsUiState.Loading -> {
-                            binding?.inLoading?.loading?.isVisible = true
+                            showLoading(true)
                         }
 
                         is LatestNewsUiState.Success -> {
+                            showLoading(false)
                             setAdapter(latestNewsUiState.characters)
                         }
 
                         is LatestNewsUiState.Error -> {
+                            showLoading(false)
                             showError(latestNewsUiState.msg)
                         }
                     }
@@ -83,6 +86,10 @@ class EventFragment : Fragment() {
             it.adapter = eventAdapter
             it.addItemDecoration(MarginItemDecorator())
         }
+    }
+
+    private fun showLoading(show: Boolean) {
+        binding?.inLoading?.loading?.isVisible = show
     }
 
     private fun showComicsForEvent(event: EventData) {
