@@ -1,11 +1,11 @@
 package com.example.marvelapp30.feature_character.presentation.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -62,8 +62,9 @@ class CharacterDetailFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.uiState.collect { uiState ->
                     when (uiState) {
-                        ComicState.Loading -> Log.d("Comics-> ", "showComics: Loading")
+                        ComicState.Loading -> showLoading(true)
                         is ComicState.Success -> {
+                            showLoading(false)
                             adapter = ComicAdapter(uiState.comics)
 
                             binding?.rvComics?.let {
@@ -76,11 +77,17 @@ class CharacterDetailFragment : Fragment() {
                             }
                         }
 
-                        is ComicState.Error -> Log.d("Comics-> ", "showComics: ${uiState.msg}")
+                        is ComicState.Error -> {
+                            showLoading(false)
+                        }
                     }
                 }
             }
         }
+    }
+
+    private fun showLoading(show: Boolean) {
+        binding?.inLoading?.loading?.isVisible = show
     }
 
     private fun setActionBar() {
