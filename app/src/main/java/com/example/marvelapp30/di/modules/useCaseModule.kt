@@ -1,6 +1,7 @@
 package com.example.marvelapp30.di.modules
 
 import com.example.marvelapp30.feature_character.domain.usecase.GetCharactersUseCase
+import com.example.marvelapp30.feature_character.domain.usecase.GetComicsUseCase
 import com.example.marvelapp30.feature_event.domain.usecase.GetEventsUseCase
 import com.example.marvelapp30.feature_event.domain.usecase.SetFormattedEventDateUseCase
 import org.koin.core.module.dsl.factoryOf
@@ -10,4 +11,5 @@ val useCaseModule = module {
     factoryOf(::GetCharactersUseCase)
     factoryOf(::GetEventsUseCase)
     factoryOf(::SetFormattedEventDateUseCase)
+    factoryOf(::GetComicsUseCase)
 }

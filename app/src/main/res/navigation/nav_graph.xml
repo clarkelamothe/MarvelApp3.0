@@ -25,7 +25,6 @@
         tools:layout="@layout/fragment_character_detail">
         <argument
             android:name="character"
-            app:argType="com.example.marvelapp30.feature_character.data.local.CharacterEntity"
-            app:nullable="true" />
+            app:argType="com.example.marvelapp30.feature_character.domain.model.Character" />
     </fragment>
 </navigation>

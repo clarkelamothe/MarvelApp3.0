@@ -2,14 +2,14 @@ package com.example.marvelapp30.feature_character.data
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.example.marvelapp30.db.MarvelAppDb
+import com.example.marvelapp30.apiModel.ApiResult
 import com.example.marvelapp30.feature_character.data.paging.CharacterPagingSource
 import com.example.marvelapp30.feature_character.data.remote.CharacterService
 import com.example.marvelapp30.feature_character.domain.CharacterRepository
+import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.utils.Constants
 
 class CharacterRepositoryImpl(
-    private val db: MarvelAppDb,
     private val service: CharacterService
 ) : CharacterRepository {
     override fun getCharacters() =
@@ -21,6 +21,23 @@ class CharacterRepositoryImpl(
             ),
             pagingSourceFactory = { CharacterPagingSource(service) }
         )
+
+    override suspend fun getComics(characterId: Int): ApiResult<List<Comic>> {
+        return try {
+            val comics = service.getRemoteComicsByCharacterId(characterId)
+            ApiResult.Success(
+                comics.body()?.data?.results?.map {
+                    Comic(
+                        id = it.id,
+                        title = it.title,
+                        year = it.dates[0].date
+                    )
+                }
+            )
+        } catch (e: Exception) {
+            ApiResult.Error(e)
+        }
+    }
 }
 
 const val PAGE_SIZE = Constants.CHARACTER_DEFAULT_PAGE_SIZE
