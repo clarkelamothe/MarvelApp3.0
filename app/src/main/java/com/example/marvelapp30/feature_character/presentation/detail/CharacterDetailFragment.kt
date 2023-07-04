@@ -1,22 +1,30 @@
 package com.example.marvelapp30.feature_character.presentation.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.bumptech.glide.Glide
 import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.FragmentCharacterDetailBinding
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class CharacterDetailFragment : Fragment() {
 
     private var binding: FragmentCharacterDetailBinding? = null
     private val args: CharacterDetailFragmentArgs by navArgs()
     private val viewModel: CharacterDetailViewModel by viewModel()
+    private lateinit var adapter: ComicAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +36,7 @@ class CharacterDetailFragment : Fragment() {
     ): View? {
         binding = FragmentCharacterDetailBinding.inflate(inflater)
 
+
         setActionBar()
         designUi()
 
@@ -37,15 +46,46 @@ class CharacterDetailFragment : Fragment() {
     private fun designUi() {
         binding?.let {
             Glide.with(it.characterImage.context)
-                .load(args.character?.imageUrl).into(it.characterImage)
+                .load(args.character.imageUrl).into(it.characterImage)
 
-            it.characterDescription.text = args.character?.description
+            it.characterDescription.text = args.character.description
+        }
+
+        showComics()
+    }
+
+    private fun showComics() {
+
+        viewModel.getComics(args.character.id)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        ComicState.Loading -> Log.d("Comics-> ", "showComics: Loading")
+                        is ComicState.Success -> {
+                            adapter = ComicAdapter(uiState.comics)
+
+                            binding?.rvComics?.let {
+                                it.adapter = adapter
+                                it.addItemDecoration(
+                                    DividerItemDecoration(
+                                        it.context, DividerItemDecoration.VERTICAL
+                                    )
+                                )
+                            }
+                        }
+
+                        is ComicState.Error -> Log.d("Comics-> ", "showComics: ${uiState.msg}")
+                    }
+                }
+            }
         }
     }
 
     private fun setActionBar() {
         (activity as AppCompatActivity).supportActionBar?.let {
-            it.title = args.character?.name
+            it.title = args.character.name
             it.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
         }
     }
