@@ -1,7 +1,6 @@
 package com.example.marvelapp30.feature_event.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,8 +92,7 @@ class EventFragment : Fragment() {
     }
 
     private fun showComicsForEvent(event: EventData) {
-        // TODO:
-        Log.d("Comics", "showComicsForEvent -> id: ${event.id} -> comics: ")
+        viewModel.getComics(event.id)
     }
 
     override fun onDestroy() {

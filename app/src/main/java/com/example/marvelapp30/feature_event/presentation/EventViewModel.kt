@@ -1,7 +1,9 @@
 package com.example.marvelapp30.feature_event.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.marvelapp30.feature_event.domain.usecase.GetComicsUseCase
 import com.example.marvelapp30.feature_event.domain.usecase.GetEventsUseCase
 import com.example.marvelapp30.feature_event.domain.usecase.SetFormattedEventDateUseCase
 import com.example.marvelapp30.utils.toUrl
@@ -11,7 +13,8 @@ import kotlinx.coroutines.launch
 
 class EventViewModel(
     private val getEventsUseCase: GetEventsUseCase,
-    private val setFormattedEventDateUseCase: SetFormattedEventDateUseCase
+    private val setFormattedEventDateUseCase: SetFormattedEventDateUseCase,
+    private val getComicsUseCase: GetComicsUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<LatestNewsUiState>(LatestNewsUiState.Loading)
     val uiState: StateFlow<LatestNewsUiState> = _uiState
@@ -37,8 +40,22 @@ class EventViewModel(
                 })
 
             } catch (e: Exception) {
-                LatestNewsUiState.Error(e.localizedMessage)
+                _uiState.value = LatestNewsUiState.Error(e.localizedMessage)
             }
+        }
+    }
+
+    fun getComics(id: Int) {
+        viewModelScope.launch { 
+            try {
+                val result = getComicsUseCase(id)
+
+                Log.d("Comics by Event", "getComics: ${result.body()?.data?.results}")
+
+            } catch (e: Exception) {
+                _uiState.value = LatestNewsUiState.Error(e.localizedMessage)
+            }
+            
         }
     }
 }
