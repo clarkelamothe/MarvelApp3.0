@@ -4,4 +4,6 @@ class EventService(
     private val eventApi: EventApi
 ) {
     suspend fun getRemoteEvents() = eventApi.getEvents()
+
+    suspend fun getComicsByEventId(id: Int) = eventApi.getComicsByEventId(id)
 }

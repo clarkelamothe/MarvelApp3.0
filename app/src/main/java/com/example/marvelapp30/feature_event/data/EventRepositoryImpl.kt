@@ -7,4 +7,5 @@ class EventRepositoryImpl(
     private val service: EventService
 ) : EventRepository {
     override suspend fun getEvents() = service.getRemoteEvents()
+    override suspend fun getComics(eventId: Int) = service.getComicsByEventId(eventId)
 }
