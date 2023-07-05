@@ -18,4 +18,4 @@ fun LocalDateTime.formatted(): String = this.format(
     )
 )
 
-fun String?.toEventDateFormatted(): String? = this?.fixDateString()?.toDateTime()?.formatted()
+fun String?.toEventDateFormatted(): String = this?.fixDateString()?.toDateTime()?.formatted() ?: ""

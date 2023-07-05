@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.marvelapp30.databinding.EventItemBinding
+import com.example.marvelapp30.feature_event.domain.model.Event
 
 class EventAdapter(
-    private val events: List<EventData>,
-    private val onItemClicked: (EventData) -> Unit
+    private val events: List<Event>,
+    private val onItemClicked: (Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -39,11 +40,10 @@ class EventAdapter(
         private val tvName = binding.eventName
         private val btExpanded = binding.btExpanded
 
-        fun bind(event: EventData) {
+        fun bind(event: Event) {
             tvName.text = event.title
             tvDate.text = event.date
             Glide.with(ivImage.context).load(event.imageUrl).into(ivImage)
-            btExpanded.isPressed = event.isExpanded
         }
     }
 }

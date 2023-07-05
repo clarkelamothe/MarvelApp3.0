@@ -1,12 +1,10 @@
 package com.example.marvelapp30.feature_event.domain
 
-import com.example.marvelapp30.apiModel.ComicDto
-import com.example.marvelapp30.apiModel.Data
-import com.example.marvelapp30.apiModel.MarvelResponse
-import com.example.marvelapp30.feature_event.data.remote.EventDto
-import retrofit2.Response
+import com.example.marvelapp30.apiModel.ApiResult
+import com.example.marvelapp30.feature_character.domain.model.Comic
+import com.example.marvelapp30.feature_event.domain.model.Event
 
 interface EventRepository {
-    suspend fun getEvents(): Response<MarvelResponse<Data<List<EventDto>>>>
-    suspend fun getComics(eventId: Int): Response<MarvelResponse<Data<List<ComicDto>>>>
+    suspend fun getEvents(): ApiResult<List<Event>>
+    suspend fun getComics(eventId: Int): ApiResult<List<Comic>>
 }

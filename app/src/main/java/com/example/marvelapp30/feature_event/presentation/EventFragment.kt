@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.FragmentEventBinding
+import com.example.marvelapp30.feature_event.domain.model.Event
 import com.example.marvelapp30.utils.MarginItemDecorator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
@@ -49,7 +50,7 @@ class EventFragment : Fragment() {
 
                         is LatestNewsUiState.Success -> {
                             showLoading(false)
-                            setAdapter(latestNewsUiState.characters)
+                            setAdapter(latestNewsUiState.events)
                         }
 
                         is LatestNewsUiState.Error -> {
@@ -58,12 +59,15 @@ class EventFragment : Fragment() {
                         }
                     }
                 }
+
+                viewModel.comics.collectLatest { comics ->
+                    viewModel.setComics(comics)
+                }
             }
         }
     }
 
     private fun showError(msg: String?) {
-        binding?.inLoading?.loading?.isVisible = false
 
         binding?.root?.let { it1 ->
             Snackbar.make(
@@ -74,10 +78,9 @@ class EventFragment : Fragment() {
         }
     }
 
-    private fun setAdapter(characters: List<EventData>) {
-        binding?.inLoading?.loading?.isVisible = false
+    private fun setAdapter(events: List<Event>) {
 
-        eventAdapter = EventAdapter(characters) {
+        eventAdapter = EventAdapter(events) {
             showComicsForEvent(it)
         }
 
@@ -91,8 +94,17 @@ class EventFragment : Fragment() {
         binding?.inLoading?.loading?.isVisible = show
     }
 
-    private fun showComicsForEvent(event: EventData) {
+    private fun showComicsForEvent(event: Event) {
         viewModel.getComics(event.id)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.comics.collectLatest {
+//                    event.list = it
+                }
+            }
+        }
+
     }
 
     override fun onDestroy() {
