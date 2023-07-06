@@ -5,6 +5,8 @@ import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.feature_event.data.remote.EventService
 import com.example.marvelapp30.feature_event.domain.EventRepository
 import com.example.marvelapp30.feature_event.domain.model.Event
+import com.example.marvelapp30.utils.fixComicYear
+import com.example.marvelapp30.utils.getSaleDate
 import com.example.marvelapp30.utils.toEventDateFormatted
 import com.example.marvelapp30.utils.toUrl
 
@@ -37,7 +39,7 @@ class EventRepositoryImpl(
                     Comic(
                         id = it.id,
                         title = it.title,
-                        year = "it.dates[0].date"
+                        year = it.dates.getSaleDate().fixComicYear()
                     )
                 }
             )

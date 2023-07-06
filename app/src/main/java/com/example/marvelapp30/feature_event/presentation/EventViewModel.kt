@@ -7,7 +7,6 @@ import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.feature_event.domain.model.Event
 import com.example.marvelapp30.feature_event.domain.usecase.GetComicsUseCase
 import com.example.marvelapp30.feature_event.domain.usecase.GetEventsUseCase
-import com.example.marvelapp30.feature_event.domain.usecase.SetFormattedEventDateUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -16,7 +15,6 @@ import kotlinx.coroutines.launch
 
 class EventViewModel(
     private val getEventsUseCase: GetEventsUseCase,
-    private val setFormattedEventDateUseCase: SetFormattedEventDateUseCase,
     private val getComicsUseCase: GetComicsUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<LatestNewsUiState>(LatestNewsUiState.Loading)
@@ -51,10 +49,10 @@ class EventViewModel(
                 .catch {
                     _uiState.value = LatestNewsUiState.Error(it.message)
                 }
-                .collectLatest {
-                    when (it) {
-                        is ApiResult.Error -> LatestNewsUiState.Error(it.exception.message)
-                        is ApiResult.Success<*> -> _comics.value = it.data as List<Comic>
+                .collectLatest { result ->
+                    when (result) {
+                        is ApiResult.Error -> LatestNewsUiState.Error(result.exception.message)
+                        is ApiResult.Success<*> -> _comics.value = (result.data as List<Comic>)
                     }
                 }
         }

@@ -1,5 +1,6 @@
 package com.example.marvelapp30.utils
 
+import com.example.marvelapp30.apiModel.DateDto
 import com.example.marvelapp30.apiModel.Thumbnail
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -19,3 +20,9 @@ fun LocalDateTime.formatted(): String = this.format(
 )
 
 fun String?.toEventDateFormatted(): String = this?.fixDateString()?.toDateTime()?.formatted() ?: ""
+
+fun List<DateDto>.getSaleDate() = this.find {
+    it.type == Constants.ON_SALE_DATE
+}?.date ?: ""
+
+fun String.fixComicYear() = this.substringBeforeLast("-").toDateTime().year

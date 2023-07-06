@@ -8,6 +8,8 @@ import com.example.marvelapp30.feature_character.data.remote.CharacterService
 import com.example.marvelapp30.feature_character.domain.CharacterRepository
 import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.utils.Constants
+import com.example.marvelapp30.utils.fixComicYear
+import com.example.marvelapp30.utils.getSaleDate
 
 class CharacterRepositoryImpl(
     private val service: CharacterService
@@ -30,7 +32,7 @@ class CharacterRepositoryImpl(
                     Comic(
                         id = it.id,
                         title = it.title,
-                        year = it.dates[0].date
+                        year = it.dates.getSaleDate().fixComicYear()
                     )
                 }
             )

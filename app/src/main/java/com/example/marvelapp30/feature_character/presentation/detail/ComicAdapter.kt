@@ -32,7 +32,7 @@ class ComicAdapter(
 
         fun bind(comic: Comic) {
             tvTitle.text = comic.title
-            tvYear.text = comic.year
+            tvYear.text = comic.year.toString()
         }
     }
 }
