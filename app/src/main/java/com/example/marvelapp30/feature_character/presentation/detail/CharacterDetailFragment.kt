@@ -64,7 +64,7 @@ class CharacterDetailFragment : Fragment() {
                             showLoading(false)
                             adapter = ComicAdapter(uiState.comics)
 
-                            binding?.rvComics?.let {
+                            binding?.comicsList?.rvComics?.let {
                                 it.adapter = adapter
                                 it.addItemDecoration(
                                     DividerItemDecoration(
@@ -76,7 +76,7 @@ class CharacterDetailFragment : Fragment() {
 
                         is ComicState.Error -> {
                             showLoading(false)
-                            binding?.rvComics?.let {
+                            binding?.comicsList?.rvComics?.let {
                                 Snackbar.make(
                                     it,
                                     uiState.msg ?: getString(R.string.error_generic),
