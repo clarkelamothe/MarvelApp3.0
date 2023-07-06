@@ -5,7 +5,6 @@ object Versions {
     const val googeServices = "4.3.15"
     const val serialization = "1.4.1"
     const val navVersion = "2.6.0"
-    const val room = "2.5.1"
     const val build = "8.0.2"
     const val jvmTarget = "18"
     const val core = "1.10.1"

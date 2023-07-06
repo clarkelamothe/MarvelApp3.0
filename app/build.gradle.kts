@@ -91,11 +91,6 @@ dependencies {
     // Paging
     implementation("androidx.paging:paging-runtime:${Versions.paging}")
 
-    //Room Database
-    implementation("androidx.room:room-paging:${Versions.room}")
-    implementation("androidx.room:room-ktx:${Versions.room}")
-    kapt("androidx.room:room-compiler:${Versions.room}")
-
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 
@@ -103,5 +98,4 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-auth:${Versions.firebaseUi}")
     implementation("com.facebook.android:facebook-android-sdk:${Versions.facebook}")
     implementation("com.google.firebase:firebase-auth-ktx:${Versions.firebaseAuth}")
-
 }
