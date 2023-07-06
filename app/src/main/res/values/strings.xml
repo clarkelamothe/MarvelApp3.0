@@ -6,6 +6,7 @@
     <string name="content_description_event_poster">Event Poster</string>
     <string name="content_description_expand_button">Expand Button</string>
     <string name="appears_in_these_comics">appears in these comics</string>
+    <string name="header_event_comics">comics to discuss</string>
     <string name="error_generic">Oops! Something happened.</string>
     <string name="main_title">Marvel Challenge</string>
     <string name="retry_snackbar_action">RETRY</string>
