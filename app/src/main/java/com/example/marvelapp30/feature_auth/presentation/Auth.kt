@@ -1,8 +1,10 @@
-package com.example.marvelapp30
+package com.example.marvelapp30.feature_auth.presentation
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.marvelapp30.MainActivity
+import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.ActivityAuthBinding
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract

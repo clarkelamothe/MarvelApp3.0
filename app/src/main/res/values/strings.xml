@@ -10,6 +10,10 @@
     <string name="error_generic">Oops! Something happened.</string>
     <string name="main_title">Marvel Challenge</string>
     <string name="retry_snackbar_action">RETRY</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="create_account">Don\'t have an account?. Please signup.</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">1:669201029417:android:38e9f1541a1ce45cc17f38</string>
