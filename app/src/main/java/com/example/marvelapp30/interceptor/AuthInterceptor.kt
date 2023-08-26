@@ -1,9 +1,13 @@
 package com.example.marvelapp30.interceptor
 
-import com.example.marvelapp30.utils.Constants
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.security.MessageDigest
+
+const val API_KEY = "apikey"
+const val HASH = "hash"
+const val TIMESTAMP = "ts"
+const val TIMESTAMP_VALUE = 1
 
 class AuthInterceptor(
     private val privateKey: String,
@@ -13,12 +17,12 @@ class AuthInterceptor(
         val url = chain.request().url
             .newBuilder()
             .addQueryParameter(
-                Constants.API_KEY,
+                API_KEY,
                 publicKey
             )
-            .addQueryParameter(Constants.TIMESTAMP, Constants.TIMESTAMP_VALUE.toString())
+            .addQueryParameter(TIMESTAMP, TIMESTAMP_VALUE.toString())
             .addQueryParameter(
-                Constants.HASH,
+                HASH,
                 generateHash(privateKey, publicKey)
             )
             .build()
@@ -31,5 +35,5 @@ private fun generateHash(
     privateKey: String,
     publicKey: String
 ): String = MessageDigest.getInstance("MD5")
-    .digest(("${Constants.TIMESTAMP_VALUE}${privateKey}${publicKey}").toByteArray())
+    .digest(("${TIMESTAMP_VALUE}${privateKey}${publicKey}").toByteArray())
     .joinToString("") { "%02x".format(it) }

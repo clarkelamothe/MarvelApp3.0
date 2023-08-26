@@ -6,23 +6,27 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+const val DATE_TIME_PATTERN = "d 'de' MMMM uuuu"
+const val LANGUAGE_CODE = "es"
+const val COUNTRY_CODE = "ES"
+const val ON_SALE_DATE = "onsaleDate"
+
 fun Thumbnail.toUrl() =
     "$path/standard_large.$extension".replace("http", "https")
-
 
 fun String.toDateTime(): LocalDateTime = LocalDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)
 fun String.fixDateString() = this.replace(" ", "T")
 
 fun LocalDateTime.formatted(): String = this.format(
     DateTimeFormatter.ofPattern(
-        Constants.DATE_TIME_PATTERN, Locale(Constants.LANGUAGE_CODE, Constants.COUNTRY_CODE)
+        DATE_TIME_PATTERN, Locale(LANGUAGE_CODE, COUNTRY_CODE)
     )
 )
 
 fun String?.toEventDateFormatted(): String = this?.fixDateString()?.toDateTime()?.formatted() ?: ""
 
 fun List<DateDto>.getSaleDate() = this.find {
-    it.type == Constants.ON_SALE_DATE
+    it.type == ON_SALE_DATE
 }?.date ?: ""
 
 fun String.fixComicYear() = this.substringBeforeLast("-").toDateTime().year
