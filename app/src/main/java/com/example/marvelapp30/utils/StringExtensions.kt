@@ -1,5 +1,7 @@
 package com.example.marvelapp30.utils
 
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.example.marvelapp30.apiModel.DateDto
 import com.example.marvelapp30.apiModel.Thumbnail
 import java.time.LocalDateTime
@@ -30,3 +32,6 @@ fun List<DateDto>.getSaleDate() = this.find {
 }?.date ?: ""
 
 fun String.fixComicYear() = this.substringBeforeLast("-").toDateTime().year
+
+fun String.loadUrl(into: ImageView) =
+    Glide.with(into.context).load(this).into(into)

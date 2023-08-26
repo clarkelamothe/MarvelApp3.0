@@ -12,9 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.bumptech.glide.Glide
 import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.FragmentCharacterDetailBinding
+import com.example.marvelapp30.utils.loadUrl
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -47,9 +47,7 @@ class CharacterDetailFragment : Fragment() {
 
     private fun designUi() {
         binding?.let {
-            Glide.with(it.characterImage.context)
-                .load(args.character.imageUrl).into(it.characterImage)
-
+            args.character.imageUrl.loadUrl(it.characterImage)
             it.characterDescription.text = args.character.description
         }
     }

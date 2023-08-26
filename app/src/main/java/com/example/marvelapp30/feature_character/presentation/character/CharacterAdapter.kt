@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.bumptech.glide.Glide
 import com.example.marvelapp30.databinding.CharacterItemBinding
 import com.example.marvelapp30.feature_character.domain.model.Character
+import com.example.marvelapp30.utils.loadUrl
 
 class CharacterAdapter(
     private val onItemClick: (Character) -> Unit
@@ -51,7 +51,7 @@ class CharacterAdapter(
         private val tvDescription = binding.characterDescription
 
         fun bind(character: Character) {
-            Glide.with(ivImage.context).load(character.imageUrl).into(ivImage)
+            character.imageUrl.loadUrl(ivImage)
             tvName.text = character.name
             tvDescription.text = character.description
         }

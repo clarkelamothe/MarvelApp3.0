@@ -6,11 +6,11 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.marvelapp30.databinding.EventItemBinding
 import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.feature_character.presentation.detail.ComicAdapter
 import com.example.marvelapp30.feature_event.domain.model.Event
+import com.example.marvelapp30.utils.loadUrl
 import com.example.marvelapp30.R.drawable.ic_baseline_keyboard_arrow_down_24 as arrowDown
 import com.example.marvelapp30.R.drawable.ic_baseline_keyboard_arrow_up_24 as arrowUp
 
@@ -71,7 +71,7 @@ class EventAdapter(
         fun bind(event: Event) {
             tvName.text = event.title
             tvDate.text = event.date
-            Glide.with(ivImage.context).load(event.imageUrl).into(ivImage)
+            event.imageUrl.loadUrl(ivImage)
             toggle(event.isExpanded)
         }
 
