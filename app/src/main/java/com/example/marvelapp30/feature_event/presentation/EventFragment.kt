@@ -88,7 +88,7 @@ class EventFragment : Fragment() {
     }
 
     private fun showLoading(show: Boolean = false) {
-        binding?.inLoading?.loading?.isVisible = show
+        binding?.incLoading?.pbLoading?.isVisible = show
     }
 
     private fun showComicsForEvent(): List<Comic> {

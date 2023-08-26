@@ -7,7 +7,7 @@
     tools:context=".feature_character.presentation.character.CharacterFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCharacter"
+        android:id="@+id/rv_characters"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -21,11 +21,11 @@
         tools:listitem="@layout/character_item" />
 
     <include
-        android:id="@+id/inLoading"
+        android:id="@+id/inc_loading"
         layout="@layout/layout_loading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/rvCharacter"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_characters"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

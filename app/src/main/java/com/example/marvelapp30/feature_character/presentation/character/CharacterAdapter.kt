@@ -46,9 +46,9 @@ class CharacterAdapter(
             }
         }
 
-        private val ivImage = binding.characterImage
-        private val tvName = binding.characterName
-        private val tvDescription = binding.characterDescription
+        private val ivImage = binding.ivCharacterImage
+        private val tvName = binding.tvCharacterName
+        private val tvDescription = binding.tvCharacterDescription
 
         fun bind(character: Character) {
             character.imageUrl.loadUrl(ivImage)

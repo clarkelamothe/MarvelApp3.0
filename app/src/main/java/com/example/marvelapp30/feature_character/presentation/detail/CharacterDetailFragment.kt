@@ -19,7 +19,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class CharacterDetailFragment : Fragment() {
 
     private var binding: FragmentCharacterDetailBinding? = null
@@ -47,8 +46,8 @@ class CharacterDetailFragment : Fragment() {
 
     private fun designUi() {
         binding?.let {
-            args.character.imageUrl.loadUrl(it.characterImage)
-            it.characterDescription.text = args.character.description
+            args.character.imageUrl.loadUrl(it.ivCharacterImage)
+            it.tvCharacterDescription.text = args.character.description
         }
     }
 
@@ -95,7 +94,7 @@ class CharacterDetailFragment : Fragment() {
     }
 
     private fun showLoading(show: Boolean) {
-        binding?.inLoading?.loading?.isVisible = show
+        binding?.incLoading?.pbLoading?.isVisible = show
     }
 
     private fun setActionBar() {

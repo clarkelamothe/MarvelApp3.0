@@ -62,7 +62,7 @@ class CharacterFragment : Fragment() {
     private fun setLoadingState() {
         viewLifecycleOwner.lifecycleScope.launch {
             characterAdapter.loadStateFlow.collectLatest { loadState ->
-                binding?.inLoading?.loading?.isVisible = loadState.refresh is LoadState.Loading
+                binding?.incLoading?.pbLoading?.isVisible = loadState.refresh is LoadState.Loading
 
                 val errorState = when {
                     loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
@@ -73,7 +73,7 @@ class CharacterFragment : Fragment() {
 
                 when (val throwable = errorState?.error) {
                     is IOException, is HttpException -> {
-                        binding?.rvCharacter?.let { rv ->
+                        binding?.rvCharacters?.let { rv ->
                             Snackbar.make(
                                 rv,
                                 throwable.message ?: getString(R.string.error_generic),
@@ -97,8 +97,8 @@ class CharacterFragment : Fragment() {
     private fun setAdapter() {
 
         binding?.let {
-            it.rvCharacter.adapter = characterAdapter
-            it.rvCharacter.addItemDecoration(MarginItemDecorator())
+            it.rvCharacters.adapter = characterAdapter
+            it.rvCharacters.addItemDecoration(MarginItemDecorator())
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

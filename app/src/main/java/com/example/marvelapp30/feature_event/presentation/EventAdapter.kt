@@ -61,12 +61,12 @@ class EventAdapter(
         binding: EventItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val header = binding.comicsHeader
-        private val ivImage = binding.eventImage
-        private val tvDate = binding.eventDate
-        private val tvName = binding.eventName
-        val btExpanded = binding.btExpanded
-        val comicRV = binding.comics
+        private val header = binding.tvComicsHeader
+        private val ivImage = binding.ivEventImage
+        private val tvDate = binding.tvEventDate
+        private val tvName = binding.tvEventName
+        val btExpanded = binding.ibExpanded
+        val comicRV = binding.incComics
 
         fun bind(event: Event) {
             tvName.text = event.title

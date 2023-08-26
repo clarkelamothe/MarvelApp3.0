@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setTopBar() {
         binding.bottomNav.itemIconTintList = null
-        setSupportActionBar(binding.appbar.materialToolbar)
+        setSupportActionBar(binding.incAppbar.materialToolbar)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment

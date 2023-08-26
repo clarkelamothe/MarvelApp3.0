@@ -27,8 +27,8 @@ class ComicAdapter(
         binding: ComicItemBinding,
     ) : ViewHolder(binding.root) {
 
-        private val tvTitle = binding.comicTitle
-        private val tvYear = binding.comicYear
+        private val tvTitle = binding.tvComicTitle
+        private val tvYear = binding.tvComicYear
 
         fun bind(comic: Comic) {
             tvTitle.text = comic.title

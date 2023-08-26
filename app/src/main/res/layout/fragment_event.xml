@@ -14,7 +14,7 @@
         android:clipToPadding="false"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="@+id/inLoading"
+        app:layout_constraintBottom_toBottomOf="@+id/inc_loading"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         tools:listitem="@layout/event_item" />
 
     <include
-        android:id="@+id/inLoading"
+        android:id="@+id/inc_loading"
         layout="@layout/layout_loading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

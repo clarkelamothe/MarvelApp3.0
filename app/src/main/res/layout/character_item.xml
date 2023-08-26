@@ -12,7 +12,7 @@
         android:layout_height="120dp">
 
         <ImageView
-            android:id="@+id/characterImage"
+            android:id="@+id/iv_character_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/content_description_character_poster"
@@ -31,11 +31,11 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/characterImage"
+            app:layout_constraintStart_toEndOf="@id/iv_character_image"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/characterName"
+                android:id="@+id/tv_character_name"
                 style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,12 +44,12 @@
                 android:textSize="24sp"
                 tools:text="Thanos" />
 
-            <Space
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="9dp" />
+                android:layout_height="9dp"/>
 
             <TextView
-                android:id="@+id/characterDescription"
+                android:id="@+id/tv_character_description"
                 style="@style/TextAppearance.MaterialComponents.Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

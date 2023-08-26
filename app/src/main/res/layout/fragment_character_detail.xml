@@ -7,7 +7,7 @@
     tools:context=".feature_character.presentation.detail.CharacterDetailFragment">
 
     <ImageView
-        android:id="@+id/characterImage"
+        android:id="@+id/iv_character_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:adjustViewBounds="true"
@@ -20,7 +20,7 @@
         tools:src="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/characterDescription"
+        android:id="@+id/tv_character_description"
         style="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/characterImage"
+        app:layout_constraintTop_toBottomOf="@+id/iv_character_image"
         tools:text="Using the power of the Infinity Stones, Thanos believes he can ultimately save the universe by wiping out half of its population." />
 
     <TextView
@@ -44,9 +44,9 @@
         android:gravity="center"
         android:text="@string/appears_in_these_comics"
         android:textAllCaps="true"
-        app:layout_constraintEnd_toEndOf="@+id/characterDescription"
-        app:layout_constraintStart_toStartOf="@+id/characterDescription"
-        app:layout_constraintTop_toBottomOf="@+id/characterDescription" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_character_description"
+        app:layout_constraintStart_toStartOf="@+id/tv_character_description"
+        app:layout_constraintTop_toBottomOf="@+id/tv_character_description" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -56,7 +56,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <include
-        android:id="@+id/inLoading"
+        android:id="@+id/inc_loading"
         layout="@layout/layout_loading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
