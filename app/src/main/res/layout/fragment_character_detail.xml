@@ -36,7 +36,7 @@
         tools:text="Using the power of the Infinity Stones, Thanos believes he can ultimately save the universe by wiping out half of its population." />
 
     <TextView
-        android:id="@+id/comicsTitle"
+        android:id="@+id/tv_comics_section_header"
         style="@style/TextAppearance.Material3.ActionBar.Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -75,5 +75,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comicsTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_comics_section_header" />
 </androidx.constraintlayout.widget.ConstraintLayout>
