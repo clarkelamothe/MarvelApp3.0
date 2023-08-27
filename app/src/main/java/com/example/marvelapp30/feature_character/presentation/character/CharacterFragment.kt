@@ -39,9 +39,8 @@ class CharacterFragment : Fragment() {
     }
 
     private fun goToDetails(character: Character) {
-        R.id.goToDetail
         findNavController().navigate(
-            CharacterFragmentDirections.goToDetail(character)
+           CharacterFragmentDirections.goToDetail(character)
         )
     }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/characterFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/characterFragment"
@@ -26,5 +26,30 @@
         <argument
             android:name="character"
             app:argType="com.example.marvelapp30.feature_character.domain.model.Character" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.marvelapp30.feature_auth.presentation.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/goToSignup"
+            app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/goToCharacters"
+            app:destination="@id/characterFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.example.marvelapp30.feature_auth.presentation.signup.SignupFragment"
+        android:label="fragment_signup"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/goToLogin"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

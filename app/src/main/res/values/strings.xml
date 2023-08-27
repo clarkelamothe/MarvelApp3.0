@@ -15,8 +15,8 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="signup">Signup</string>
-    <string name="create_account">Don\'t have an account?. Please signup.</string>
-    <string name="back_to_login">Already have an account?. Please login.</string>
+    <string name="create_account">Not registered yet?. Please signup.</string>
+    <string name="back_to_login">Already registered?. Please login.</string>
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">1:669201029417:android:38e9f1541a1ce45cc17f38</string>
