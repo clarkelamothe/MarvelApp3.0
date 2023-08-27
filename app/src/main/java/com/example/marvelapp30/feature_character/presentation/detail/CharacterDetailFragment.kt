@@ -25,6 +25,7 @@ class CharacterDetailFragment : BaseFragment<FragmentCharacterDetailBinding>(
     private lateinit var adapter: ComicAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setTitle(args.character.name)
         setActionBar()
         designUi()
         getComics()
@@ -85,9 +86,6 @@ class CharacterDetailFragment : BaseFragment<FragmentCharacterDetailBinding>(
     }
 
     private fun setActionBar() {
-        (activity as AppCompatActivity).supportActionBar?.let {
-            it.title = args.character.name
-            it.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
-        }
+        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
     }
 }

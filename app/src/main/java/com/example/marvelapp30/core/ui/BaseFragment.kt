@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
@@ -25,6 +26,10 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     fun navigateTo(destination: NavDirections) {
         findNavController().navigate(destination)
+    }
+
+    fun setTitle(name: String) {
+        (activity as AppCompatActivity).supportActionBar?.title = name
     }
 
     override fun onDestroy() {

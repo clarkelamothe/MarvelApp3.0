@@ -2,7 +2,6 @@ package com.example.marvelapp30.feature_event.presentation
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +26,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.main_title)
+        setTitle(getString(R.string.main_title))
 
         viewModel.getData()
 

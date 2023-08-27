@@ -3,7 +3,6 @@ package com.example.marvelapp30.feature_character.presentation.character
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -42,7 +41,7 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.main_title)
+        setTitle(getString(R.string.main_title))
 
         setAdapter()
         setLoadingState()
