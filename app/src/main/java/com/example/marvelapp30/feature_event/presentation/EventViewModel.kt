@@ -2,7 +2,7 @@ package com.example.marvelapp30.feature_event.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.marvelapp30.apiModel.ApiResult
+import com.example.marvelapp30.core.data.model.ApiResult
 import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.feature_event.domain.model.Event
 import com.example.marvelapp30.feature_event.domain.usecase.GetComicsUseCase

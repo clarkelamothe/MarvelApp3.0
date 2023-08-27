@@ -2,7 +2,7 @@ package com.example.marvelapp30.feature_character.data
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.example.marvelapp30.apiModel.ApiResult
+import com.example.marvelapp30.core.data.model.ApiResult
 import com.example.marvelapp30.feature_character.data.paging.CharacterPagingSource
 import com.example.marvelapp30.feature_character.data.remote.CharacterService
 import com.example.marvelapp30.feature_character.domain.CharacterRepository

@@ -2,8 +2,8 @@ package com.example.marvelapp30.utils
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.example.marvelapp30.apiModel.DateDto
-import com.example.marvelapp30.apiModel.Thumbnail
+import com.example.marvelapp30.core.data.model.DateDto
+import com.example.marvelapp30.core.data.model.ThumbnailDto
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -13,7 +13,7 @@ const val LANGUAGE_CODE = "es"
 const val COUNTRY_CODE = "ES"
 const val ON_SALE_DATE = "onsaleDate"
 
-fun Thumbnail.toUrl() =
+fun ThumbnailDto.toUrl() =
     "$path/standard_large.$extension".replace("http", "https")
 
 fun String.toDateTime(): LocalDateTime = LocalDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)

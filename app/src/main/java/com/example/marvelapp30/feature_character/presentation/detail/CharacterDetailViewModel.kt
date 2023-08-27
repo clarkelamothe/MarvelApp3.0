@@ -2,8 +2,8 @@ package com.example.marvelapp30.feature_character.presentation.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.marvelapp30.apiModel.ApiResult.Error
-import com.example.marvelapp30.apiModel.ApiResult.Success
+import com.example.marvelapp30.core.data.model.ApiResult.Error
+import com.example.marvelapp30.core.data.model.ApiResult.Success
 import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.feature_character.domain.usecase.GetComicsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,4 +1,4 @@
-package com.example.marvelapp30.apiModel
+package com.example.marvelapp30.core.data.model
 
 data class MarvelResponse<T>(
     var code: Int,

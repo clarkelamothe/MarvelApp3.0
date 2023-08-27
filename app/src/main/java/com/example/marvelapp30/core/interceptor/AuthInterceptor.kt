@@ -1,4 +1,4 @@
-package com.example.marvelapp30.interceptor
+package com.example.marvelapp30.core.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -35,5 +35,5 @@ private fun generateHash(
     privateKey: String,
     publicKey: String
 ): String = MessageDigest.getInstance("MD5")
-    .digest(("${TIMESTAMP_VALUE}${privateKey}${publicKey}").toByteArray())
+    .digest(("$TIMESTAMP_VALUE${privateKey}${publicKey}").toByteArray())
     .joinToString("") { "%02x".format(it) }

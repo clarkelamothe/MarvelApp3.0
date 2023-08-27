@@ -1,8 +1,8 @@
 package com.example.marvelapp30.feature_event.data.remote
 
-import com.example.marvelapp30.apiModel.ComicDto
-import com.example.marvelapp30.apiModel.Data
-import com.example.marvelapp30.apiModel.MarvelResponse
+import com.example.marvelapp30.core.data.model.ComicDto
+import com.example.marvelapp30.core.data.model.Data
+import com.example.marvelapp30.core.data.model.MarvelResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

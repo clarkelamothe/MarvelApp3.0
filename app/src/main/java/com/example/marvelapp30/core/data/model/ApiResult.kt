@@ -1,4 +1,4 @@
-package com.example.marvelapp30.apiModel
+package com.example.marvelapp30.core.data.model
 
 sealed class ApiResult<out T> {
     data class Success<T>(val data: T) : ApiResult<Nothing>()

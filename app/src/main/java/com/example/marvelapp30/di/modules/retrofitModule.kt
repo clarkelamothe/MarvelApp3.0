@@ -1,7 +1,7 @@
 package com.example.marvelapp30.di.modules
 
 import com.example.marvelapp30.BuildConfig
-import com.example.marvelapp30.interceptor.AuthInterceptor
+import com.example.marvelapp30.core.interceptor.AuthInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
