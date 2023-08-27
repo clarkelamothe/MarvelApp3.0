@@ -1,19 +1,16 @@
 package com.example.marvelapp30.feature_character.presentation.character
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.marvelapp30.R
+import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentCharacterBinding
 import com.example.marvelapp30.feature_character.domain.model.Character
 import com.example.marvelapp30.utils.MarginItemDecorator
@@ -24,9 +21,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.HttpException
 import java.io.IOException
 
-class CharacterFragment : Fragment() {
-
-    private var binding: FragmentCharacterBinding? = null
+class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
+    FragmentCharacterBinding::inflate
+) {
     private val viewModel: CharacterViewModel by viewModel()
     private lateinit var characterAdapter: CharacterAdapter
 
@@ -39,23 +36,16 @@ class CharacterFragment : Fragment() {
     }
 
     private fun goToDetails(character: Character) {
-        findNavController().navigate(
-           CharacterFragmentDirections.goToDetail(character)
+        navigateTo(
+            CharacterFragmentDirections.goToDetail(character)
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentCharacterBinding.inflate(inflater)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.main_title)
 
         setAdapter()
         setLoadingState()
-
-        return binding?.root
     }
 
     private fun setLoadingState() {
@@ -77,7 +67,9 @@ class CharacterFragment : Fragment() {
                                 rv,
                                 throwable.message ?: getString(R.string.error_generic),
                                 Snackbar.LENGTH_INDEFINITE
-                            ).setAction(getString(R.string.retry_snackbar_action)) { characterAdapter.refresh() }.show()
+                            )
+                                .setAction(getString(R.string.retry_snackbar_action)) { characterAdapter.refresh() }
+                                .show()
                         }
                     }
 
@@ -107,10 +99,5 @@ class CharacterFragment : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
     }
 }

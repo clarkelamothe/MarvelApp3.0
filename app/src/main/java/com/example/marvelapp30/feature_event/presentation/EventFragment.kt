@@ -1,16 +1,14 @@
 package com.example.marvelapp30.feature_event.presentation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.marvelapp30.R
+import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentEventBinding
 import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.feature_event.domain.model.Event
@@ -20,19 +18,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class EventFragment : Fragment() {
-    private var binding: FragmentEventBinding? = null
+class EventFragment : BaseFragment<FragmentEventBinding>(
+    FragmentEventBinding::inflate
+) {
     private val viewModel: EventViewModel by viewModel()
     private lateinit var eventAdapter: EventAdapter
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentEventBinding.inflate(inflater)
-
-        return binding?.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -101,10 +91,5 @@ class EventFragment : Fragment() {
             }
         }
         return comics
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
     }
 }

@@ -1,4 +1,4 @@
-package com.example.marvelapp30
+package com.example.marvelapp30.core.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.marvelapp30.R
 import com.example.marvelapp30.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

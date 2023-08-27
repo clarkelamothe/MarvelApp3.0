@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Base.Theme.MarvelApp30"
-    tools:context=".MainActivity">
+    tools:context=".core.ui.MainActivity">
 
     <include
         android:id="@+id/inc_appbar"
