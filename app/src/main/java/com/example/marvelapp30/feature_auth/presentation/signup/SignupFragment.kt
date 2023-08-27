@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.marvelapp30.databinding.FragmentSignupBinding
 
@@ -31,16 +30,12 @@ class SignupFragment : Fragment() {
 
     private fun setListeners() {
         binding?.tvSignup?.setOnClickListener {
-            goTo(SignupFragmentDirections.goToLogin())
+            findNavController().popBackStack()
         }
 
         binding?.btSignup?.setOnClickListener {
-            goTo(SignupFragmentDirections.goToLogin())
+            findNavController().popBackStack()
         }
-    }
-
-    private fun goTo(directions: NavDirections) {
-        findNavController().navigate(directions)
     }
 
     override fun onDestroy() {
