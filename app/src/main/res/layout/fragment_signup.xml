@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@color/black"
-        android:enabled="true"
+        android:enabled="false"
         android:text="@string/signup"
         android:textAllCaps="true"
         android:textColor="@color/white"

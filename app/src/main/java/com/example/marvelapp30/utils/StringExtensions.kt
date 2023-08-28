@@ -1,5 +1,6 @@
 package com.example.marvelapp30.utils
 
+import android.util.Patterns
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.marvelapp30.core.data.model.DateDto
@@ -7,11 +8,13 @@ import com.example.marvelapp30.core.data.model.ThumbnailDto
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.util.regex.Pattern
 
 const val DATE_TIME_PATTERN = "d 'de' MMMM uuuu"
 const val LANGUAGE_CODE = "es"
 const val COUNTRY_CODE = "ES"
 const val ON_SALE_DATE = "onsaleDate"
+const val REGEX_PASSWORD = "^(?=.*[0-9])(?=.*[A-Z])(?=\\S+\$).{6,}"
 
 fun ThumbnailDto.toUrl() =
     "$path/standard_large.$extension".replace("http", "https")
@@ -35,3 +38,7 @@ fun String.fixComicYear() = this.substringBeforeLast("-").toDateTime().year
 
 fun String.loadUrl(into: ImageView) =
     Glide.with(into.context).load(this).into(into)
+
+fun String.isEmailValid() = Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
+fun String.isPasswordValid() = Pattern.compile(REGEX_PASSWORD).matcher(this).matches()
