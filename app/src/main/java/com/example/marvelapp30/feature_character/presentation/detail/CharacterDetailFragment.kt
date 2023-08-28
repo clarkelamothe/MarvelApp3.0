@@ -26,6 +26,7 @@ class CharacterDetailFragment : BaseFragment<FragmentCharacterDetailBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setTitle(args.character.name)
+        showAppBar()
         setActionBar()
         designUi()
         getComics()

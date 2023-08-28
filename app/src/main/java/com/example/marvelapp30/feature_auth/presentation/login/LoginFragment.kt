@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentLoginBinding
@@ -37,7 +36,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as AppCompatActivity).supportActionBar?.hide()
+
+        showAppBar(false)
 
         checkEntries()
         setListeners()

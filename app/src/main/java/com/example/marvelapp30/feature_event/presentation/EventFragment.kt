@@ -27,6 +27,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         setTitle(getString(R.string.main_title))
+        showAppBar()
 
         viewModel.getData()
 

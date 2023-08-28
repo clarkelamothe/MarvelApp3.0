@@ -42,6 +42,7 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setTitle(getString(R.string.main_title))
+        showAppBar()
 
         setAdapter()
         setLoadingState()

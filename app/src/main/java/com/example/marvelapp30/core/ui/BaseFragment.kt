@@ -28,6 +28,14 @@ abstract class BaseFragment<VB : ViewBinding>(
         findNavController().navigate(destination)
     }
 
+    fun showAppBar(show: Boolean = true) {
+        if (show) {
+            (activity as AppCompatActivity).supportActionBar?.show()
+        } else {
+            (activity as AppCompatActivity).supportActionBar?.hide()
+        }
+    }
+
     fun setTitle(name: String) {
         (activity as AppCompatActivity).supportActionBar?.title = name
     }

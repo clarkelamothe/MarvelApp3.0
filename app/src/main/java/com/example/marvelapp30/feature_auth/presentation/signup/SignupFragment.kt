@@ -3,7 +3,6 @@ package com.example.marvelapp30.feature_auth.presentation.signup
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -26,7 +25,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
     private val viewModel: SignupViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as AppCompatActivity).supportActionBar?.hide()
+        showAppBar(false)
 
         checkEntries()
         setListeners()
