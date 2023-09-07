@@ -1,4 +1,4 @@
-package com.example.marvelapp30.utils
+package com.example.marvelapp30.core.utils
 
 import android.util.Patterns
 import android.widget.ImageView

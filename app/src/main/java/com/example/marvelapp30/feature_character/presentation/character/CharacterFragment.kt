@@ -12,7 +12,7 @@ import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentCharacterBinding
 import com.example.marvelapp30.feature_character.domain.model.Character
-import com.example.marvelapp30.utils.MarginItemDecorator
+import com.example.marvelapp30.core.ui.MarginItemDecorator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

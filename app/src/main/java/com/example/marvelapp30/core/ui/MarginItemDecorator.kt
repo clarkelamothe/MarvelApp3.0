@@ -1,4 +1,4 @@
-package com.example.marvelapp30.utils
+package com.example.marvelapp30.core.ui
 
 import android.graphics.Rect
 import android.view.View

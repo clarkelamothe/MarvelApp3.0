@@ -11,7 +11,7 @@ import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentEventBinding
 import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.feature_event.domain.model.Event
-import com.example.marvelapp30.utils.MarginItemDecorator
+import com.example.marvelapp30.core.ui.MarginItemDecorator
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

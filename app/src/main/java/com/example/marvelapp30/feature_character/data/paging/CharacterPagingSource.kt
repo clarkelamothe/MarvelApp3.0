@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.marvelapp30.feature_character.data.remote.CharacterService
 import com.example.marvelapp30.feature_character.domain.model.Character
-import com.example.marvelapp30.utils.toUrl
+import com.example.marvelapp30.core.utils.toUrl
 
 class CharacterPagingSource(
     private val service: CharacterService,

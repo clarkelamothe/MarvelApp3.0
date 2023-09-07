@@ -10,7 +10,7 @@ import com.example.marvelapp30.databinding.EventItemBinding
 import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.feature_character.presentation.detail.ComicAdapter
 import com.example.marvelapp30.feature_event.domain.model.Event
-import com.example.marvelapp30.utils.loadUrl
+import com.example.marvelapp30.core.utils.loadUrl
 import com.example.marvelapp30.R.drawable.ic_baseline_keyboard_arrow_down_24 as arrowDown
 import com.example.marvelapp30.R.drawable.ic_baseline_keyboard_arrow_up_24 as arrowUp
 

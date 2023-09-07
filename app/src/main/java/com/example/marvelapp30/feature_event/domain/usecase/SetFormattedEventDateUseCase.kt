@@ -1,6 +1,6 @@
 package com.example.marvelapp30.feature_event.domain.usecase
 
-import com.example.marvelapp30.utils.toEventDateFormatted
+import com.example.marvelapp30.core.utils.toEventDateFormatted
 
 class SetFormattedEventDateUseCase {
 

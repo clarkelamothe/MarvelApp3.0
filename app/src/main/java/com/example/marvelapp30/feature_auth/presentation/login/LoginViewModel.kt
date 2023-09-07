@@ -2,8 +2,8 @@ package com.example.marvelapp30.feature_auth.presentation.login
 
 import com.example.marvelapp30.core.ui.BaseViewModel
 import com.example.marvelapp30.feature_auth.presentation.model.LoginUiEvent
-import com.example.marvelapp30.utils.isEmailValid
-import com.example.marvelapp30.utils.isPasswordValid
+import com.example.marvelapp30.core.utils.isEmailValid
+import com.example.marvelapp30.core.utils.isPasswordValid
 
 class LoginViewModel : BaseViewModel<LoginUiEvent>() {
     fun checkEntries(email: String, password: String) {

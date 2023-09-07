@@ -7,8 +7,8 @@ import com.example.marvelapp30.feature_character.data.paging.CharacterPagingSour
 import com.example.marvelapp30.feature_character.data.remote.CharacterService
 import com.example.marvelapp30.feature_character.domain.CharacterRepository
 import com.example.marvelapp30.feature_character.domain.model.Comic
-import com.example.marvelapp30.utils.fixComicYear
-import com.example.marvelapp30.utils.getSaleDate
+import com.example.marvelapp30.core.utils.fixComicYear
+import com.example.marvelapp30.core.utils.getSaleDate
 
 const val PAGE_SIZE = 15
 const val PREFETCH_DISTANCE = 5

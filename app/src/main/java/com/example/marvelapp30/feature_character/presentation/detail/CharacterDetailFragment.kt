@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentCharacterDetailBinding
-import com.example.marvelapp30.utils.loadUrl
+import com.example.marvelapp30.core.utils.loadUrl
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
