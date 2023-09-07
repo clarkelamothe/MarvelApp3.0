@@ -21,4 +21,9 @@
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
     <string name="facebook_application_id" translatable="false">1:669201029417:android:38e9f1541a1ce45cc17f38</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb1:669201029417:android:38e9f1541a1ce45cc17f38</string>
+    <string name="username_not_valid_error">Username not valid.</string>
+    <string name="email_not_valid_error">Email not valid.</string>
+    <string name="password_not_valid_error">Password not valid.</string>
+    <string name="success_message">Success!</string>
+    <string name="failed_message">Failed!</string>
 </resources>

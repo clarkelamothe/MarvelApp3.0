@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentSignupBinding
 import com.example.marvelapp30.feature_auth.presentation.model.SignupUiEvent.EmailError
@@ -78,9 +79,9 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.eventFlow.collect { event ->
                 when (event) {
-                    UsernameError -> binding?.etName?.error = "Username not valid."
-                    EmailError -> binding?.etEmail?.error = "Email not valid."
-                    PasswordError -> binding?.etPassword?.error = "Password not valid."
+                    UsernameError -> binding?.etName?.error = context?.getString(R.string.username_not_valid_error)
+                    EmailError -> binding?.etEmail?.error = context?.getString(R.string.email_not_valid_error)
+                    PasswordError -> binding?.etPassword?.error = context?.getString(R.string.password_not_valid_error)
                     FormValid -> binding?.btSignup?.isEnabled = true
                     is SignupPressed -> signup(event.email, event.password)
                 }
@@ -93,11 +94,11 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(context, "Success!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context?.getString(R.string.success_message), Toast.LENGTH_SHORT).show()
                         auth.signOut()
                         findNavController().popBackStack()
                     } else {
-                        Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context?.getString(R.string.failed_message), Toast.LENGTH_SHORT).show()
                     }
                 }
         }
