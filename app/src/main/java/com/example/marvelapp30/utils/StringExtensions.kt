@@ -13,11 +13,12 @@ import java.util.regex.Pattern
 const val DATE_TIME_PATTERN = "d 'de' MMMM uuuu"
 const val LANGUAGE_CODE = "es"
 const val COUNTRY_CODE = "ES"
+const val IMG_ENDPOINT_SIZE = "/standard_large"
 const val ON_SALE_DATE = "onsaleDate"
 const val REGEX_PASSWORD = "^(?=.*[0-9])(?=.*[A-Z])(?=\\S+\$).{6,}"
 
 fun ThumbnailDto.toUrl() =
-    "$path/standard_large.$extension".replace("http", "https")
+    "$path$IMG_ENDPOINT_SIZE.$extension".replace("http", "https")
 
 fun String.toDateTime(): LocalDateTime = LocalDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)
 fun String.fixDateString() = this.replace(" ", "T")
