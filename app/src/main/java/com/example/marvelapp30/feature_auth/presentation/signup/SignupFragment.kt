@@ -16,6 +16,7 @@ import com.example.marvelapp30.feature_auth.presentation.model.SignupUiEvent.Sig
 import com.example.marvelapp30.feature_auth.presentation.model.SignupUiEvent.UsernameError
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -53,7 +54,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
             it.etPassword.doAfterTextChanged { password ->
                 viewModel.checkEntries(
-                    it.etPassword.text.toString(),
+                    it.etName.text.toString(),
                     it.etEmail.text.toString(),
                     password.toString()
                 )
@@ -77,12 +78,18 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
     private fun setCollectors() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.eventFlow.collect { event ->
+            viewModel.eventFlow.collectLatest { event ->
                 when (event) {
-                    UsernameError -> binding?.etName?.error = context?.getString(R.string.username_not_valid_error)
-                    EmailError -> binding?.etEmail?.error = context?.getString(R.string.email_not_valid_error)
-                    PasswordError -> binding?.etPassword?.error = context?.getString(R.string.password_not_valid_error)
-                    FormValid -> binding?.btSignup?.isEnabled = true
+                    UsernameError -> binding?.etName?.error =
+                        context?.getString(R.string.username_not_valid_error)
+
+                    EmailError -> binding?.etEmail?.error =
+                        context?.getString(R.string.email_not_valid_error)
+
+                    PasswordError -> binding?.etPassword?.error =
+                        context?.getString(R.string.password_not_valid_error)
+
+                    is FormValid -> binding?.btSignup?.isEnabled = event.isValid
                     is SignupPressed -> signup(event.email, event.password)
                 }
             }
@@ -94,11 +101,19 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(context, context?.getString(R.string.success_message), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            context?.getString(R.string.success_message),
+                            Toast.LENGTH_SHORT
+                        ).show()
                         auth.signOut()
                         findNavController().popBackStack()
                     } else {
-                        Toast.makeText(context, context?.getString(R.string.failed_message), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            context?.getString(R.string.failed_message) + "${task.exception}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
         }

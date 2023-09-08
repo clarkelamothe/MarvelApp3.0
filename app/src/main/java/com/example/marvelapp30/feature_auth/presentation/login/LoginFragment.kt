@@ -1,11 +1,9 @@
 package com.example.marvelapp30.feature_auth.presentation.login
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
@@ -14,7 +12,6 @@ import com.example.marvelapp30.feature_auth.presentation.model.LoginUiEvent.Emai
 import com.example.marvelapp30.feature_auth.presentation.model.LoginUiEvent.FormValid
 import com.example.marvelapp30.feature_auth.presentation.model.LoginUiEvent.LoginPressed
 import com.example.marvelapp30.feature_auth.presentation.model.LoginUiEvent.PasswordError
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
@@ -31,7 +28,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            Log.d("FirebaseUser", "onStart: ${currentUser.displayName}")
             navigateTo(LoginFragmentDirections.goToCharacters())
         }
     }
@@ -47,15 +43,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private fun checkEntries() {
         binding?.let {
-            it.etEmail.afterTextChanged { email ->
+            it.etEmail.doAfterTextChanged { email ->
                 viewModel.checkEntries(
-                    email, it.etPassword.text.toString()
+                    email.toString(), it.etPassword.text.toString()
                 )
             }
 
-            it.etPassword.afterTextChanged { password ->
+            it.etPassword.doAfterTextChanged { password ->
                 viewModel.checkEntries(
-                    it.etEmail.text.toString(), password
+                    it.etEmail.text.toString(), password.toString()
                 )
             }
         }
@@ -78,8 +74,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.eventFlow.collect { event ->
                 when (event) {
-                    EmailError -> binding?.etEmail?.error = context?.getString(R.string.email_not_valid_error)
-                    PasswordError -> binding?.etPassword?.error = context?.getString(R.string.password_not_valid_error)
+                    EmailError -> binding?.etEmail?.error =
+                        context?.getString(R.string.email_not_valid_error)
+
+                    PasswordError -> binding?.etPassword?.error =
+                        context?.getString(R.string.password_not_valid_error)
+
                     FormValid -> binding?.btLogin?.isEnabled = true
                     is LoginPressed -> login(event.email, event.password)
                 }
@@ -92,24 +92,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(context, context?.getString(R.string.success_message), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            context?.getString(R.string.success_message),
+                            Toast.LENGTH_SHORT
+                        ).show()
                         navigateTo(LoginFragmentDirections.goToCharacters())
                     } else {
-                        Toast.makeText(context, context?.getString(R.string.failed_message), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            context?.getString(R.string.failed_message),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
         }
-    }
-
-    private fun TextInputEditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-        this.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(editable: Editable?) {
-                afterTextChanged.invoke(editable.toString())
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
     }
 }

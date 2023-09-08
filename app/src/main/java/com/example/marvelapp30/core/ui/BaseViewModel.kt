@@ -10,9 +10,11 @@ abstract class BaseViewModel<UiEvent> : ViewModel() {
     private val eventChannel = Channel<UiEvent>()
     val eventFlow = eventChannel.receiveAsFlow()
 
-    fun sendEvent(event: UiEvent) {
+    fun sendEvent(vararg event: UiEvent) {
         viewModelScope.launch {
-            eventChannel.send(event)
+            event.forEach {
+                eventChannel.send(it)
+            }
         }
     }
 }
