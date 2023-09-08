@@ -9,11 +9,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentSignupBinding
-import com.example.marvelapp30.feature_auth.presentation.model.SignupUiEvent.EmailError
-import com.example.marvelapp30.feature_auth.presentation.model.SignupUiEvent.FormValid
-import com.example.marvelapp30.feature_auth.presentation.model.SignupUiEvent.PasswordError
-import com.example.marvelapp30.feature_auth.presentation.model.SignupUiEvent.SignupPressed
-import com.example.marvelapp30.feature_auth.presentation.model.SignupUiEvent.UsernameError
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.EmailError
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.FormValid
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.PasswordError
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.UsernameError
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.collectLatest
@@ -90,7 +90,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
                         context?.getString(R.string.password_not_valid_error)
 
                     is FormValid -> binding?.btSignup?.isEnabled = event.isValid
-                    is SignupPressed -> signup(event.email, event.password)
+                    is AuthUiEvent.OnSubmit -> signup(event.email, event.password)
                 }
             }
         }

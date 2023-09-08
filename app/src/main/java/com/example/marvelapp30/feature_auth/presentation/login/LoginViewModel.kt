@@ -3,28 +3,28 @@ package com.example.marvelapp30.feature_auth.presentation.login
 import com.example.marvelapp30.core.ui.BaseViewModel
 import com.example.marvelapp30.core.utils.isEmailValid
 import com.example.marvelapp30.core.utils.isPasswordValid
-import com.example.marvelapp30.feature_auth.presentation.model.LoginUiEvent
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent
 
-class LoginViewModel : BaseViewModel<LoginUiEvent>() {
+class LoginViewModel : BaseViewModel<AuthUiEvent>() {
     fun checkEntries(email: String, password: String) {
         if (email.isNotBlank() && password.isNotBlank()) {
             when {
-                !email.trim().isEmailValid() && email.isNotBlank() -> {
-                    sendEvent(LoginUiEvent.EmailError)
+                !email.trim().isEmailValid() && email.trim().isNotBlank() -> {
+                    sendEvent(AuthUiEvent.EmailError, AuthUiEvent.FormValid(false))
                 }
 
-                !password.trim().isPasswordValid() && password.isNotBlank() -> {
-                    sendEvent(LoginUiEvent.PasswordError)
+                !password.trim().isPasswordValid() && password.trim().isNotBlank() -> {
+                    sendEvent(AuthUiEvent.PasswordError, AuthUiEvent.FormValid(false))
                 }
 
                 else -> {
-                    sendEvent(LoginUiEvent.FormValid)
+                    sendEvent(AuthUiEvent.FormValid(true))
                 }
             }
         }
     }
 
     fun loginPressed(email: String, password: String) {
-        sendEvent(LoginUiEvent.LoginPressed(email, password))
+        sendEvent(AuthUiEvent.OnSubmit("", email, password))
     }
 }

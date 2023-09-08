@@ -8,10 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentLoginBinding
-import com.example.marvelapp30.feature_auth.presentation.model.LoginUiEvent.EmailError
-import com.example.marvelapp30.feature_auth.presentation.model.LoginUiEvent.FormValid
-import com.example.marvelapp30.feature_auth.presentation.model.LoginUiEvent.LoginPressed
-import com.example.marvelapp30.feature_auth.presentation.model.LoginUiEvent.PasswordError
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.EmailError
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.FormValid
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.OnSubmit
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.PasswordError
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
@@ -80,8 +80,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                     PasswordError -> binding?.etPassword?.error =
                         context?.getString(R.string.password_not_valid_error)
 
-                    FormValid -> binding?.btLogin?.isEnabled = true
-                    is LoginPressed -> login(event.email, event.password)
+                    is FormValid -> binding?.btLogin?.isEnabled = event.isValid
+                    is OnSubmit -> login(event.email, event.password)
+                    else -> {}
                 }
             }
         }
