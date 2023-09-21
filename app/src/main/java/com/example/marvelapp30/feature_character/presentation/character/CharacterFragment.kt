@@ -2,17 +2,15 @@ package com.example.marvelapp30.feature_character.presentation.character
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
+import com.example.marvelapp30.core.ui.MarginItemDecorator
 import com.example.marvelapp30.databinding.FragmentCharacterBinding
 import com.example.marvelapp30.feature_character.domain.model.Character
-import com.example.marvelapp30.core.ui.MarginItemDecorator
+import com.example.marvelapp30.feature_character.presentation.model.CharacterUiEvent
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -44,8 +42,24 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
         setTitle(getString(R.string.main_title))
         showAppBar()
 
-        setAdapter()
-        setLoadingState()
+        viewModel.getCharacters()
+
+        setCollectors()
+    }
+
+    private fun setCollectors() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.eventFlow.collect {
+                when (it) {
+                    CharacterUiEvent.Loading -> setLoadingState()
+                    is CharacterUiEvent.Error -> showSnackBar(it.message)
+                    is CharacterUiEvent.Success -> {
+                        setAdapter()
+                        characterAdapter.submitData(it.characters)
+                    }
+                }
+            }
+        }
     }
 
     private fun setLoadingState() {
@@ -62,42 +76,33 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
 
                 when (val throwable = errorState?.error) {
                     is IOException, is HttpException -> {
-                        binding?.rvCharacters?.let { rv ->
-                            Snackbar.make(
-                                rv,
-                                throwable.message ?: getString(R.string.error_generic),
-                                Snackbar.LENGTH_INDEFINITE
-                            )
-                                .setAction(getString(R.string.retry_snackbar_action)) { characterAdapter.refresh() }
-                                .show()
-                        }
+                        viewModel.error(throwable.message)
                     }
 
                     is NullPointerException -> {
-                        Toast.makeText(
-                            context,
-                            getString(R.string.error_generic),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        viewModel.error(getString(R.string.error_generic))
                     }
                 }
             }
         }
     }
 
-    private fun setAdapter() {
+    private fun showSnackBar(message: String?) {
+        binding?.rvCharacters?.let { rv ->
+            Snackbar.make(
+                rv,
+                message ?: getString(R.string.error_generic),
+                Snackbar.LENGTH_INDEFINITE
+            )
+                .setAction(getString(R.string.retry_snackbar_action)) { characterAdapter.refresh() }
+                .show()
+        }
+    }
 
+    private fun setAdapter() {
         binding?.let {
             it.rvCharacters.adapter = characterAdapter
             it.rvCharacters.addItemDecoration(MarginItemDecorator())
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.characters.collectLatest {
-                    characterAdapter.submitData(it)
-                }
-            }
         }
     }
 }
