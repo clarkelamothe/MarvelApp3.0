@@ -5,6 +5,7 @@ import androidx.paging.cachedIn
 import com.example.marvelapp30.core.ui.BaseViewModel
 import com.example.marvelapp30.feature_character.domain.usecase.GetCharactersUseCase
 import com.example.marvelapp30.feature_character.presentation.model.CharacterUiEvent
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -18,9 +19,11 @@ class CharacterViewModel(
 
     fun getCharacters() {
         viewModelScope.launch {
-            charactersUseCase().cachedIn(this).collectLatest {
-                sendEvent(CharacterUiEvent.Success(it))
-            }
+            charactersUseCase()
+                .catch { sendEvent(CharacterUiEvent.Error(it.message)) }
+                .cachedIn(this).collectLatest {
+                    sendEvent(CharacterUiEvent.Success(it))
+                }
         }
     }
 
