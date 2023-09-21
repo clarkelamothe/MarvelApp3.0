@@ -71,11 +71,11 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
 
                 when (val throwable = errorState?.error) {
                     is IOException, is HttpException -> {
-                        viewModel.error(throwable.message)
+                        viewModel.sendError(throwable.message)
                     }
 
                     is NullPointerException -> {
-                        viewModel.error(getString(R.string.error_generic))
+                        viewModel.sendError(getString(R.string.error_generic))
                     }
                 }
             }
