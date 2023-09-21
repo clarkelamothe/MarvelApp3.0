@@ -9,7 +9,6 @@ import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.core.ui.MarginItemDecorator
 import com.example.marvelapp30.databinding.FragmentCharacterBinding
-import com.example.marvelapp30.feature_character.domain.model.Character
 import com.example.marvelapp30.feature_character.presentation.model.CharacterUiEvent
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
@@ -28,14 +27,10 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
         super.onCreate(savedInstanceState)
 
         characterAdapter = CharacterAdapter {
-            goToDetails(it)
+            navigateTo(
+                CharacterFragmentDirections.goToDetail(it)
+            )
         }
-    }
-
-    private fun goToDetails(character: Character) {
-        navigateTo(
-            CharacterFragmentDirections.goToDetail(character)
-        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
