@@ -8,10 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
-import com.example.marvelapp30.databinding.FragmentEventBinding
-import com.example.marvelapp30.feature_character.domain.model.Comic
-import com.example.marvelapp30.feature_event.domain.model.Event
 import com.example.marvelapp30.core.ui.MarginItemDecorator
+import com.example.marvelapp30.databinding.FragmentEventBinding
+import com.example.marvelapp30.feature_event.domain.model.Event
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -31,9 +30,13 @@ class EventFragment : BaseFragment<FragmentEventBinding>(
 
         viewModel.getData()
 
+        setCollectors()
+    }
+
+    private fun setCollectors() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest { latestNewsUiState ->
+                viewModel.eventFlow.collectLatest { latestNewsUiState ->
                     when (latestNewsUiState) {
                         LatestNewsUiState.Loading -> {
                             showLoading(true)
@@ -47,6 +50,11 @@ class EventFragment : BaseFragment<FragmentEventBinding>(
                         is LatestNewsUiState.Error -> {
                             showLoading()
                             showError(latestNewsUiState.msg)
+                        }
+
+                        is LatestNewsUiState.EventExpanded -> {
+                            showLoading()
+                            eventAdapter.notifyItemChanged(latestNewsUiState.pos)
                         }
                     }
                 }
@@ -66,9 +74,8 @@ class EventFragment : BaseFragment<FragmentEventBinding>(
     }
 
     private fun setAdapter(events: List<Event>) {
-        eventAdapter = EventAdapter(events) {
-            viewModel.getComics(it.id)
-            showComicsForEvent()
+        eventAdapter = EventAdapter(events) { pos, ev ->
+            if (!ev.isExpanded) viewModel.getComics(pos, ev.id)
         }
 
         binding?.rvEvents?.let {
@@ -79,17 +86,5 @@ class EventFragment : BaseFragment<FragmentEventBinding>(
 
     private fun showLoading(show: Boolean = false) {
         binding?.incLoading?.pbLoading?.isVisible = show
-    }
-
-    private fun showComicsForEvent(): List<Comic> {
-        var comics = emptyList<Comic>()
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.comics.collectLatest {
-                    comics = it
-                }
-            }
-        }
-        return comics
     }
 }

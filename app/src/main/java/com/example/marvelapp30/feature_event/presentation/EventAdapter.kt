@@ -6,17 +6,16 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.example.marvelapp30.core.utils.loadUrl
 import com.example.marvelapp30.databinding.EventItemBinding
-import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.feature_character.presentation.detail.ComicAdapter
 import com.example.marvelapp30.feature_event.domain.model.Event
-import com.example.marvelapp30.core.utils.loadUrl
 import com.example.marvelapp30.R.drawable.ic_baseline_keyboard_arrow_down_24 as arrowDown
 import com.example.marvelapp30.R.drawable.ic_baseline_keyboard_arrow_up_24 as arrowUp
 
 class EventAdapter(
     private val events: List<Event>,
-    private val onItemClicked: (Event) -> List<Comic>
+    private val onItemClicked: (Int, Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         return EventViewHolder(
@@ -29,21 +28,6 @@ class EventAdapter(
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         with(holder) {
             bind(events[position])
-
-            holder.btExpanded.setOnClickListener {
-                isAnyItemExpanded(position)
-                val expand = events[position].isExpanded
-                holder.toggle(!expand)
-                events[position].isExpanded = !expand
-
-                events[position].comics = onItemClicked(events[position])
-                comicRV.rvComics.adapter = ComicAdapter(events[position].comics)
-                holder.comicRV.rvComics.addItemDecoration(
-                    DividerItemDecoration(
-                        it.context, DividerItemDecoration.VERTICAL
-                    )
-                )
-            }
         }
     }
 
@@ -65,8 +49,28 @@ class EventAdapter(
         private val ivImage = binding.ivEventImage
         private val tvDate = binding.tvEventDate
         private val tvName = binding.tvEventName
-        val btExpanded = binding.ibExpanded
-        val comicRV = binding.incComics
+        private val btExpanded = binding.ibExpanded
+        private val comicRV = binding.incComics
+
+        init {
+            btExpanded.setOnClickListener {
+                isAnyItemExpanded(bindingAdapterPosition)
+                val expand = events[bindingAdapterPosition].isExpanded
+                toggle(!expand)
+                events[bindingAdapterPosition].isExpanded = !expand
+
+                onItemClicked(bindingAdapterPosition, events[bindingAdapterPosition])
+
+                val c = events[bindingAdapterPosition].comics
+                comicRV.rvComics.adapter = ComicAdapter(c)
+
+                comicRV.rvComics.addItemDecoration(
+                    DividerItemDecoration(
+                        it.context, DividerItemDecoration.VERTICAL
+                    )
+                )
+            }
+        }
 
         fun bind(event: Event) {
             tvName.text = event.title
@@ -75,7 +79,7 @@ class EventAdapter(
             toggle(event.isExpanded)
         }
 
-        fun toggle(expand: Boolean) {
+        private fun toggle(expand: Boolean) {
             comicRV.root.isVisible = expand
             header.isVisible = expand
 
