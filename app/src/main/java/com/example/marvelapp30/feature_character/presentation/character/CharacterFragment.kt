@@ -37,6 +37,8 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
         setTitle(getString(R.string.main_title))
         showAppBar()
 
+        setAdapter()
+
         viewModel.getCharacters()
 
         setCollectors()
@@ -49,7 +51,6 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
                     CharacterUiEvent.Loading -> setLoadingState()
                     is CharacterUiEvent.Error -> showSnackBar(it.message)
                     is CharacterUiEvent.Success -> {
-                        setAdapter()
                         characterAdapter.submitData(it.characters)
                     }
                 }
