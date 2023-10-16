@@ -11,6 +11,10 @@ import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.core.ui.MarginItemDecorator
 import com.example.marvelapp30.databinding.FragmentEventBinding
 import com.example.marvelapp30.feature_event.domain.model.Event
+import com.example.marvelapp30.feature_event.presentation.LatestNewsUiState.Error
+import com.example.marvelapp30.feature_event.presentation.LatestNewsUiState.EventExpanded
+import com.example.marvelapp30.feature_event.presentation.LatestNewsUiState.Loading
+import com.example.marvelapp30.feature_event.presentation.LatestNewsUiState.Success
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -37,31 +41,22 @@ class EventFragment : BaseFragment<FragmentEventBinding>(
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.eventFlow.collectLatest { latestNewsUiState ->
-                    when (latestNewsUiState) {
-                        LatestNewsUiState.Loading -> {
-                            showLoading(true)
-                        }
-
-                        is LatestNewsUiState.Success -> {
-                            showLoading()
-                            setAdapter(latestNewsUiState.events)
-                        }
-
-                        is LatestNewsUiState.Error -> {
-                            showLoading()
-                            showError(latestNewsUiState.msg)
-                        }
-
-                        is LatestNewsUiState.EventExpanded -> {
-                            showLoading()
-                            eventAdapter.notifyItemChanged(latestNewsUiState.pos)
-                        }
-                    }
+                    binding?.bind(latestNewsUiState)
                 }
             }
         }
     }
 
+    private fun FragmentEventBinding.bind(state: LatestNewsUiState) {
+        this.incLoading.pbLoading.isVisible = state is Loading
+        if (state is Error) showError(state.msg)
+
+        when(state) {
+            is EventExpanded -> eventAdapter.notifyItemChanged(state.pos)
+            is Success -> setAdapter(state.events)
+            else -> {}
+        }
+    }
     private fun showError(msg: String?) {
 
         binding?.root?.let {
@@ -82,9 +77,5 @@ class EventFragment : BaseFragment<FragmentEventBinding>(
             it.adapter = eventAdapter
             it.addItemDecoration(MarginItemDecorator())
         }
-    }
-
-    private fun showLoading(show: Boolean = false) {
-        binding?.incLoading?.pbLoading?.isVisible = show
     }
 }
