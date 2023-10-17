@@ -6,6 +6,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("com.google.gms.google-services")
+    id("de.mannodermaus.android-junit5") version ("1.9.3.0")
 }
 
 android {
@@ -63,9 +64,6 @@ dependencies {
     implementation("androidx.appcompat:appcompat:${Versions.appCompat}")
     implementation("com.google.android.material:material:${Versions.material}")
     implementation("androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}")
-    testImplementation("junit:junit:${Versions.jUnit}")
-    androidTestImplementation("androidx.test.ext:junit:${Versions.ext}")
-    androidTestImplementation("androidx.test.espresso:espresso-core:${Versions.espresso}")
 
     // Splashscreen API
     implementation("androidx.core:core-splashscreen:${Versions.splashScreen}")
@@ -98,4 +96,13 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-auth:${Versions.firebaseUi}")
     implementation("com.facebook.android:facebook-android-sdk:${Versions.facebook}")
     implementation("com.google.firebase:firebase-auth-ktx:${Versions.firebaseAuth}")
+
+    // Test
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${Versions.jUnit5}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${Versions.jUnit5}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-params:${Versions.jUnit5}")
+    //testImplementation("junit:junit:${Versions.jUnit}")
+    androidTestImplementation("androidx.test.ext:junit:${Versions.ext}")
+    androidTestImplementation("androidx.test.espresso:espresso-core:${Versions.espresso}")
+    testImplementation("com.willowtreeapps.assertk:assertk:${Versions.assertK}")
 }

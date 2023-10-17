@@ -1,8 +1,10 @@
 package com.example.marvelapp30
 
-import org.junit.Test
-
-import org.junit.Assert.*
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -10,8 +12,19 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+
+    @BeforeEach
+    fun setUp() {
+
+    }
+
+    @AfterEach
+    fun tearDown() {
+
+    }
+
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        assertThat(2 + 2).isEqualTo(4)
     }
 }

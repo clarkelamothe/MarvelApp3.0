@@ -12,6 +12,7 @@ object Versions {
     const val material = "1.9.0"
     const val constraintLayout = "2.1.4"
     const val jUnit = "4.13.2"
+    const val jUnit5 = "5.10.0"
     const val ext = "1.1.5"
     const val espresso = "3.5.1"
     const val kotlin = "1.8.22"
@@ -23,4 +24,5 @@ object Versions {
     const val okHttp = "4.11.0"
     const val gson = "2.9.0"
     const val paging = "3.1.1"
+    const val assertK = "0.27.0"
 }
