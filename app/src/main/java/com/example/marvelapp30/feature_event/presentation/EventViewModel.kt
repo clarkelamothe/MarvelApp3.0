@@ -15,30 +15,30 @@ import kotlinx.coroutines.launch
 class EventViewModel(
     private val getEventsUseCase: GetEventsUseCase,
     private val getComicsUseCase: GetComicsUseCase
-) : BaseViewModel<LatestNewsUiState>() {
+) : BaseViewModel<EventsUiState>() {
 
     private val _events = MutableStateFlow(emptyList<Event>())
-//    val events: StateFlow<List<Event>> = _events
 
     init {
-        sendEvent(LatestNewsUiState.Loading)
+        sendEvent(EventsUiState.Loading)
+        getData()
     }
 
     fun getData() {
         viewModelScope.launch {
             getEventsUseCase()
                 .catch {
-                    sendEvent(LatestNewsUiState.Error(it.message))
+                    sendEvent(EventsUiState.Error(it.message))
                 }
                 .collectLatest { result ->
                     when (result) {
                         is ApiResult.Success<*> -> {
                             _events.value = result.data as List<Event>
-                            sendEvent(LatestNewsUiState.Success(_events.value))
+                            sendEvent(EventsUiState.Success(_events.value))
                         }
 
                         is ApiResult.Error -> sendEvent(
-                            LatestNewsUiState.Error(
+                            EventsUiState.Error(
                                 result.exception.message
                             )
                         )
@@ -48,33 +48,45 @@ class EventViewModel(
 
     }
 
-    fun getComics(pos: Int, id: Int) {
+    fun getComics(eventId: Int) {
         viewModelScope.launch {
-            getComicsUseCase(id)
+            sendEvent(EventsUiState.Loading)
+            getComicsUseCase(eventId)
                 .catch {
-                    sendEvent(LatestNewsUiState.Error(it.message))
+                    sendEvent(EventsUiState.Error(it.message))
                 }
                 .collectLatest { result ->
                     when (result) {
-                        is ApiResult.Error -> sendEvent(LatestNewsUiState.Error(result.exception.message))
+                        is ApiResult.Error -> sendEvent(EventsUiState.Error(result.exception.message))
                         is ApiResult.Success<*> -> {
-                            _events.value.find {
-                                it.id == id
-                            }?.let { event ->
-                                event.comics = result.data as List<Comic>
-                            }
-
-                            sendEvent(LatestNewsUiState.EventExpanded(pos, _events.value))
+                            updateEventWithComics(eventId, result.data as List<Comic>)
+                            sendEvent(EventsUiState.ComicSuccess(getIndex(eventId), result.data))
                         }
                     }
                 }
         }
     }
+
+    private fun getIndex(eventId: Int) = _events.value.indexOfFirst {
+        it.id == eventId
+    }
+
+    private fun updateEventWithComics(eventId: Int, comics: List<Comic>) {
+        viewModelScope.launch {
+            _events.value.find {
+                it.id == eventId
+            }?.apply {
+                this.isExpanded = !this.isExpanded
+                this.comics = comics
+            }
+
+        }
+    }
 }
 
-sealed class LatestNewsUiState {
-    object Loading : LatestNewsUiState()
-    data class Success(val events: List<Event>) : LatestNewsUiState()
-    data class Error(val msg: String?) : LatestNewsUiState()
-    data class EventExpanded(val pos: Int, val events: List<Event>) : LatestNewsUiState()
+sealed class EventsUiState {
+    object Loading : EventsUiState()
+    data class Success(val events: List<Event>, val index: Int? = null) : EventsUiState()
+    data class Error(val msg: String?) : EventsUiState()
+    data class ComicSuccess(val index: Int, val comics: List<Comic>) : EventsUiState()
 }

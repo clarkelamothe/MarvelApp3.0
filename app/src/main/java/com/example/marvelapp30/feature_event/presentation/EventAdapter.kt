@@ -15,12 +15,19 @@ import com.example.marvelapp30.R.drawable.ic_baseline_keyboard_arrow_up_24 as ar
 
 class EventAdapter(
     private val events: List<Event>,
-    private val onItemClicked: (Int, Event) -> Unit
+    private val onItemClicked: (Event) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         return EventViewHolder(
-            EventItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
+            EventItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        ) {
+            onItemClicked(events[it])
+        }
     }
 
     override fun getItemCount() = events.size
@@ -43,6 +50,7 @@ class EventAdapter(
 
     inner class EventViewHolder(
         binding: EventItemBinding,
+        onItemClicked: (Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val header = binding.tvComicsHeader
@@ -54,21 +62,23 @@ class EventAdapter(
 
         init {
             btExpanded.setOnClickListener {
+                onItemClicked(bindingAdapterPosition)
+
+                val item = events[bindingAdapterPosition]
+                toggle(!item.isExpanded)
+
                 isAnyItemExpanded(bindingAdapterPosition)
-                val expand = events[bindingAdapterPosition].isExpanded
-                toggle(!expand)
-                events[bindingAdapterPosition].isExpanded = !expand
+                with(binding.incComics.rvComics) {
+                    adapter = ComicAdapter(item.comics)
 
-                onItemClicked(bindingAdapterPosition, events[bindingAdapterPosition])
-
-                val c = events[bindingAdapterPosition].comics
-                comicRV.rvComics.adapter = ComicAdapter(c)
-
-                comicRV.rvComics.addItemDecoration(
-                    DividerItemDecoration(
-                        it.context, DividerItemDecoration.VERTICAL
+                    addItemDecoration(
+                        DividerItemDecoration(
+                            context,
+                            DividerItemDecoration.VERTICAL
+                        )
                     )
-                )
+                }
+
             }
         }
 
@@ -76,7 +86,6 @@ class EventAdapter(
             tvName.text = event.title
             tvDate.text = event.date
             event.imageUrl.loadUrl(ivImage)
-            toggle(event.isExpanded)
         }
 
         private fun toggle(expand: Boolean) {
