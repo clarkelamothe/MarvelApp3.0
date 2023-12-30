@@ -1,16 +1,13 @@
 package com.example.marvelapp30.core.utils
 
-import android.util.Patterns
 import assertk.assertThat
 import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
-import assertk.assertions.isTrue
 import com.example.marvelapp30.core.data.model.DateDto
 import com.example.marvelapp30.core.data.model.ThumbnailDto
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.junit.jupiter.params.provider.ValueSource
 
 class StringExtensionsTest {
     @Test
