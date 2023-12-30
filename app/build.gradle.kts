@@ -100,7 +100,7 @@ dependencies {
     // Test - junit5
     testImplementation("org.junit.jupiter:junit-jupiter-api:${Versions.jUnit5}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${Versions.jUnit5}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-params:${Versions.jUnit5}")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:${Versions.jUnit5}")
 
     // Test - assertK
     testImplementation("com.willowtreeapps.assertk:assertk:${Versions.assertK}")

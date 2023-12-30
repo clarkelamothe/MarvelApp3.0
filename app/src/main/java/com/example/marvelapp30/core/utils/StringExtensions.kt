@@ -20,10 +20,10 @@ const val REGEX_PASSWORD = "^(?=.*[0-9])(?=.*[A-Z])(?=\\S+\$).{6,}"
 fun ThumbnailDto.toUrl() =
     "$path$IMG_ENDPOINT_SIZE.$extension".replace("http", "https")
 
-fun String.toDateTime(): LocalDateTime = LocalDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)
-fun String.fixDateString() = this.replace(" ", "T")
+private fun String.toDateTime(): LocalDateTime = LocalDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)
+private fun String.fixDateString() = this.replace(" ", "T")
 
-fun LocalDateTime.formatted(): String = this.format(
+private fun LocalDateTime.formatted(): String = this.format(
     DateTimeFormatter.ofPattern(
         DATE_TIME_PATTERN, Locale(LANGUAGE_CODE, COUNTRY_CODE)
     )
