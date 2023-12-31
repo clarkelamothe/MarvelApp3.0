@@ -90,7 +90,7 @@ dependencies {
     implementation("androidx.paging:paging-runtime:${Versions.paging}")
 
     // Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serialization}")
 
     // Firebase
     implementation("com.firebaseui:firebase-ui-auth:${Versions.firebaseUi}")

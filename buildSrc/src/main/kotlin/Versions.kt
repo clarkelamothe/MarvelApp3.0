@@ -3,7 +3,7 @@ object Versions {
     const val firebaseUi = "7.2.0"
     const val firebaseAuth = "22.0.0"
     const val googeServices = "4.3.15"
-    const val serialization = "1.4.1"
+    const val serialization = "1.6.0"
     const val navVersion = "2.6.0"
     const val build = "8.0.2"
     const val jvmTarget = "18"
