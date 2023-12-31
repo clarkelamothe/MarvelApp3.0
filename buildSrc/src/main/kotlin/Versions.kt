@@ -25,4 +25,5 @@ object Versions {
     const val gson = "2.9.0"
     const val paging = "3.1.1"
     const val assertK = "0.28.0"
+    const val mockK = "1.13.8"
 }

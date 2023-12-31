@@ -106,7 +106,10 @@ dependencies {
     testImplementation("com.willowtreeapps.assertk:assertk:${Versions.assertK}")
     //testImplementation("junit:junit:${Versions.jUnit}")
 
+    // Test - mockK
+    testImplementation ("io.mockk:mockk:${Versions.mockK}")
+    androidTestImplementation ("io.mockk:mockk-android:${Versions.mockK}")
+
     androidTestImplementation("androidx.test.ext:junit:${Versions.ext}")
     androidTestImplementation("androidx.test.espresso:espresso-core:${Versions.espresso}")
-
 }
