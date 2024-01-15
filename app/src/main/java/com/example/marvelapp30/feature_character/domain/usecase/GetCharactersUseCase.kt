@@ -6,5 +6,4 @@ class GetCharactersUseCase(
     private val characterRepository: CharacterRepository
 ) {
     operator fun invoke() = characterRepository.getCharacters().flow
-
 }

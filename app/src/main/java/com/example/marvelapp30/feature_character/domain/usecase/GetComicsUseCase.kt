@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.flow
 class GetComicsUseCase(
     private val characterRepository: CharacterRepository
 ) {
-
     suspend operator fun invoke(characterId: Int) = flow {
         emit(characterRepository.getComics(characterId))
     }
