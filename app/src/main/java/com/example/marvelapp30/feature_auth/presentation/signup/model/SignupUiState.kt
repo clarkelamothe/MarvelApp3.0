@@ -7,6 +7,6 @@ sealed class SignupUiState {
     data object EmailError : SignupUiState()
     data object UsernameError : SignupUiState()
     data object PasswordError : SignupUiState()
-    data object NavigateToLogin : SignupUiState()
+    data object Navigate : SignupUiState()
     data class FormValid(val isValid: Boolean) : SignupUiState()
 }

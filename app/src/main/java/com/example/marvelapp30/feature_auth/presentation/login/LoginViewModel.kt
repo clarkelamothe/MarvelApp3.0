@@ -79,6 +79,7 @@ class LoginViewModel : BaseViewModel<LoginUiIntent>() {
 
     private fun login(email: String, password: String) {
         if (email.isNotBlank() && password.isNotBlank()) {
+            _state.update { Loading }
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {

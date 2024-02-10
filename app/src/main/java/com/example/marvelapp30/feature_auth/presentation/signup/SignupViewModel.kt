@@ -14,7 +14,7 @@ import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiSt
 import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.FormValid
 import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.Idle
 import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.Loading
-import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.NavigateToLogin
+import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.Navigate
 import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.PasswordError
 import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.UsernameError
 import com.google.firebase.auth.ktx.auth
@@ -36,19 +36,19 @@ class SignupViewModel : BaseViewModel<SignupUiIntent>() {
 
     private fun handleIntent() {
         viewModelScope.launch {
-            intent.collect {
+            intent.collect { intent ->
                 _state.update { Loading }
-                when (it) {
+                when (intent) {
                     is OnFormFilling -> {
-                        checkEntries(it.username, it.email, it.password)
+                        checkEntries(intent.username, intent.email, intent.password)
                     }
 
                     Login -> {
-                        _state.update { NavigateToLogin }
+                        _state.update { Navigate }
                     }
 
                     is Signup -> {
-                        signup(it.email, it.password)
+                        signup(intent.email, intent.password)
                     }
                 }
             }
@@ -81,11 +81,12 @@ class SignupViewModel : BaseViewModel<SignupUiIntent>() {
 
     private fun signup(email: String, password: String) {
         if (email.isNotBlank() && password.isNotBlank()) {
+            _state.update { Loading }
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         auth.signOut()
-                        _state.update { NavigateToLogin }
+                        _state.update { Navigate }
                     } else {
                         _state.update { Error }
                     }

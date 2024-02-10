@@ -74,18 +74,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                     Idle -> {
                         viewModel.isUserAlreadyLoggedIn()
                     }
+
                     Loading -> {}
                     EmailError -> binding?.etEmail?.error =
                         context?.getString(R.string.email_not_valid_error)
+
                     PasswordError -> binding?.etPassword?.error =
                         context?.getString(R.string.password_not_valid_error)
+
                     is FormValid -> binding?.btLogin?.isEnabled = state.isValid
                     NavigateToSignup -> {
-                        navigateTo(LoginFragmentDirections.goToSignup())
+                        navigateTo(R.id.signupFragment)
                     }
+
                     NavigateToHome -> {
-                        navigateTo(LoginFragmentDirections.goToCharacters())
+                        navigateTo(R.id.characterFragment)
                     }
+
                     Error -> {
                         Toast.makeText(
                             context,

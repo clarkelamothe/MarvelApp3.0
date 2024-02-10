@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentSignupBinding
@@ -14,8 +13,9 @@ import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiIn
 import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState
 import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.EmailError
 import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.FormValid
-import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.NavigateToLogin
+import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.Navigate
 import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.PasswordError
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -78,7 +78,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
     private fun setCollectors() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect {
+            viewModel.state.collectLatest {
                 when (it) {
                     SignupUiState.Idle -> {}
                     SignupUiState.Loading -> {}
@@ -109,7 +109,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
                         ).show()
                     }
 
-                    NavigateToLogin -> findNavController().popBackStack()
+                    is Navigate -> navigateTo(R.id.loginFragment)
                 }
             }
         }
