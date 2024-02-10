@@ -9,21 +9,19 @@ import androidx.navigation.fragment.findNavController
 import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentSignupBinding
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.EmailError
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.FormValid
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.PasswordError
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.UsernameError
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.flow.collectLatest
+import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiIntent.Login
+import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiIntent.Signup
+import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState
+import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.EmailError
+import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.FormValid
+import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.NavigateToLogin
+import com.example.marvelapp30.feature_auth.presentation.signup.model.SignupUiState.PasswordError
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignupFragment : BaseFragment<FragmentSignupBinding>(
     FragmentSignupBinding::inflate
 ) {
-    private var auth = Firebase.auth
     private val viewModel: SignupViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,59 +61,57 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
     }
 
     private fun setListeners() {
-        binding?.tvSignup?.setOnClickListener {
-            findNavController().popBackStack()
+        binding?.tvBackToLogin?.setOnClickListener {
+            viewModel.sendEvent(Login)
         }
 
         binding?.btSignup?.setOnClickListener {
-            viewModel.signupPressed(
-                binding?.etName?.text.toString(),
-                binding?.etEmail?.text.toString(),
-                binding?.etPassword?.text.toString()
+            viewModel.sendEvent(
+                Signup(
+                    binding?.etName?.text.toString(),
+                    binding?.etEmail?.text.toString(),
+                    binding?.etPassword?.text.toString()
+                )
             )
         }
     }
 
     private fun setCollectors() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.eventFlow.collectLatest { event ->
-                when (event) {
-                    UsernameError -> binding?.etName?.error =
-                        context?.getString(R.string.username_not_valid_error)
+            viewModel.state.collect {
+                when (it) {
+                    SignupUiState.Idle -> {}
+                    SignupUiState.Loading -> {}
+                    SignupUiState.UsernameError -> {
+                        binding?.etName?.error =
+                            context?.getString(R.string.username_not_valid_error)
+                    }
 
-                    EmailError -> binding?.etEmail?.error =
-                        context?.getString(R.string.email_not_valid_error)
+                    EmailError -> {
+                        binding?.etEmail?.error =
+                            context?.getString(R.string.email_not_valid_error)
+                    }
 
-                    PasswordError -> binding?.etPassword?.error =
-                        context?.getString(R.string.password_not_valid_error)
+                    PasswordError -> {
+                        binding?.etPassword?.error =
+                            context?.getString(R.string.password_not_valid_error)
+                    }
 
-                    is FormValid -> binding?.btSignup?.isEnabled = event.isValid
-                    is AuthUiEvent.OnSubmit -> signup(event.email, event.password)
-                }
-            }
-        }
-    }
+                    is FormValid -> {
+                        binding?.btSignup?.isEnabled = it.isValid
+                    }
 
-    private fun signup(email: String, password: String) {
-        if (email.isNotBlank() && password.isNotBlank()) {
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
+                    SignupUiState.Error -> {
                         Toast.makeText(
                             context,
-                            context?.getString(R.string.success_message),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        auth.signOut()
-                        findNavController().popBackStack()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            context?.getString(R.string.failed_message) + "${task.exception}",
+                            context?.getString(R.string.error_generic),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+
+                    NavigateToLogin -> findNavController().popBackStack()
                 }
+            }
         }
     }
 }

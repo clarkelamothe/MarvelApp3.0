@@ -13,6 +13,7 @@ import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiStat
 import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.EmailError
 import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.Error
 import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.FormValid
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.Idle
 import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.Loading
 import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.NavigateToHome
 import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.NavigateToSignup
@@ -25,7 +26,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel : BaseViewModel<LoginUiIntent>() {
-    private val _state = MutableStateFlow<LoginUiState>(Loading)
+    private val _state = MutableStateFlow<LoginUiState>(Idle)
     val state = _state.asStateFlow()
 
     private var auth = Firebase.auth
@@ -37,11 +38,8 @@ class LoginViewModel : BaseViewModel<LoginUiIntent>() {
     private fun handleIntent() {
         viewModelScope.launch {
             eventFlow.collect {
+                _state.update { Loading }
                 when (it) {
-                    is Login -> {
-                        login(it.email, it.password)
-                    }
-
                     LoginFacebook -> {}
                     is OnFormFilling -> {
                         checkEntries(it.email, it.password)
@@ -49,6 +47,10 @@ class LoginViewModel : BaseViewModel<LoginUiIntent>() {
 
                     Signup -> {
                         _state.update { NavigateToSignup }
+                    }
+
+                    is Login -> {
+                        login(it.email, it.password)
                     }
                 }
             }

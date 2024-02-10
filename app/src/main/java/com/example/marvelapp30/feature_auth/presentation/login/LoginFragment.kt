@@ -18,6 +18,7 @@ import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiStat
 import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.NavigateToHome
 import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.NavigateToSignup
 import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.PasswordError
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -77,7 +78,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private fun setCollectors() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.state.collect { state ->
+            viewModel.state.collectLatest { state ->
                 when (state) {
                     Idle -> {}
                     Loading -> {}
@@ -86,8 +87,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                     PasswordError -> binding?.etPassword?.error =
                         context?.getString(R.string.password_not_valid_error)
                     is FormValid -> binding?.btLogin?.isEnabled = state.isValid
-                    NavigateToSignup -> navigateTo(LoginFragmentDirections.goToSignup())
-                    NavigateToHome -> navigateTo(LoginFragmentDirections.goToCharacters())
+                    NavigateToSignup -> {
+                        navigateTo(LoginFragmentDirections.goToSignup())
+                    }
+                    NavigateToHome -> {
+                        navigateTo(LoginFragmentDirections.goToCharacters())
+                    }
                     Error -> {
                         Toast.makeText(
                             context,
