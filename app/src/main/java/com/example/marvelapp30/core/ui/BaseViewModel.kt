@@ -6,14 +6,14 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<UiEvent> : ViewModel() {
-    private val eventChannel = Channel<UiEvent>()
-    val eventFlow = eventChannel.receiveAsFlow()
+abstract class BaseViewModel<UiIntent> : ViewModel() {
+    private val _intent = Channel<UiIntent>()
+    val intent = _intent.receiveAsFlow()
 
-    fun sendEvent(vararg event: UiEvent) {
+    fun sendEvent(vararg intents: UiIntent) {
         viewModelScope.launch {
-            event.forEach {
-                eventChannel.send(it)
+            intents.forEach {
+                _intent.send(it)
             }
         }
     }

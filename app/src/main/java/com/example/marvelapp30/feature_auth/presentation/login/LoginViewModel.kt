@@ -37,7 +37,7 @@ class LoginViewModel : BaseViewModel<LoginUiIntent>() {
 
     private fun handleIntent() {
         viewModelScope.launch {
-            eventFlow.collect {
+            intent.collect {
                 _state.update { Loading }
                 when (it) {
                     LoginFacebook -> {}

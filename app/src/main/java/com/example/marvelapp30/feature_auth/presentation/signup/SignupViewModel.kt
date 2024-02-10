@@ -36,7 +36,7 @@ class SignupViewModel : BaseViewModel<SignupUiIntent>() {
 
     private fun handleIntent() {
         viewModelScope.launch {
-            eventFlow.collect {
+            intent.collect {
                 _state.update { Loading }
                 when (it) {
                     is OnFormFilling -> {

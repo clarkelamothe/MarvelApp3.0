@@ -46,7 +46,7 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
 
     private fun setCollectors() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.eventFlow.collect {
+            viewModel.intent.collect {
                 when (it) {
                     CharacterUiEvent.Loading -> setLoadingState()
                     is CharacterUiEvent.Error -> showSnackBar(it.message)

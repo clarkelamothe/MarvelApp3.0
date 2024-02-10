@@ -39,7 +39,7 @@ class EventFragment : BaseFragment<FragmentEventBinding>(
     private fun collectEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.eventFlow.collectLatest { latestNewsUiState ->
+                viewModel.intent.collectLatest { latestNewsUiState ->
                     binding?.bind(latestNewsUiState)
                 }
             }
