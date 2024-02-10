@@ -4,15 +4,19 @@ import androidx.lifecycle.viewModelScope
 import com.example.marvelapp30.core.ui.BaseViewModel
 import com.example.marvelapp30.core.utils.isEmailValid
 import com.example.marvelapp30.core.utils.isPasswordValid
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiIntent
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.EmailError
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.Error
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.FormValid
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.Loading
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.NavigateToHome
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.NavigateToSignup
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.PasswordError
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiIntent
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiIntent.Login
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiIntent.LoginFacebook
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiIntent.OnFormFilling
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiIntent.Signup
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.EmailError
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.Error
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.FormValid
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.Loading
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.NavigateToHome
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.NavigateToSignup
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.PasswordError
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,8 +24,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class LoginViewModel : BaseViewModel<AuthUiIntent>() {
-    private val _state = MutableStateFlow<AuthUiState>(Loading)
+class LoginViewModel : BaseViewModel<LoginUiIntent>() {
+    private val _state = MutableStateFlow<LoginUiState>(Loading)
     val state = _state.asStateFlow()
 
     private var auth = Firebase.auth
@@ -34,16 +38,16 @@ class LoginViewModel : BaseViewModel<AuthUiIntent>() {
         viewModelScope.launch {
             eventFlow.collect {
                 when (it) {
-                    is AuthUiIntent.Login -> {
+                    is Login -> {
                         login(it.email, it.password)
                     }
 
-                    AuthUiIntent.LoginFacebook -> {}
-                    is AuthUiIntent.OnFormFilling -> {
+                    LoginFacebook -> {}
+                    is OnFormFilling -> {
                         checkEntries(it.email, it.password)
                     }
 
-                    AuthUiIntent.Signup -> {
+                    Signup -> {
                         _state.update { NavigateToSignup }
                     }
                 }

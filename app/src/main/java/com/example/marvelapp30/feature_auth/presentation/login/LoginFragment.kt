@@ -8,15 +8,16 @@ import androidx.lifecycle.lifecycleScope
 import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentLoginBinding
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiIntent
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.EmailError
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.Error
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.FormValid
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.Idle
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.Loading
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.NavigateToHome
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.NavigateToSignup
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.PasswordError
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiIntent.Login
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiIntent.Signup
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.EmailError
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.Error
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.FormValid
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.Idle
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.Loading
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.NavigateToHome
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.NavigateToSignup
+import com.example.marvelapp30.feature_auth.presentation.login.model.LoginUiState.PasswordError
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -62,7 +63,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private fun setListeners() {
         binding?.btLogin?.setOnClickListener {
             viewModel.sendEvent(
-                AuthUiIntent.Login(
+                Login(
                     binding?.etEmail?.text.toString(),
                     binding?.etPassword?.text.toString()
                 )
@@ -70,7 +71,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         }
 
         binding?.tvSignup?.setOnClickListener {
-            viewModel.sendEvent(AuthUiIntent.Signup)
+            viewModel.sendEvent(Signup)
         }
     }
 
