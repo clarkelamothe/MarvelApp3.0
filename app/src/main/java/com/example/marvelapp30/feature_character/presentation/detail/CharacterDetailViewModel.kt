@@ -1,50 +1,73 @@
 package com.example.marvelapp30.feature_character.presentation.detail
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marvelapp30.core.data.model.ApiResult.Error
 import com.example.marvelapp30.core.data.model.ApiResult.Success
+import com.example.marvelapp30.core.ui.BaseViewModel
 import com.example.marvelapp30.feature_character.domain.model.Comic
 import com.example.marvelapp30.feature_character.domain.usecase.GetComicsUseCase
+import com.example.marvelapp30.feature_character.presentation.detail.ComicState.Loading
+import com.example.marvelapp30.feature_character.presentation.detail.ComicUiIntent.FetchComics
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CharacterDetailViewModel(
     private val comicsUseCase: GetComicsUseCase
-) : ViewModel() {
+) : BaseViewModel<ComicUiIntent>() {
 
-    private val _uiState = MutableStateFlow<ComicState>(ComicState.Loading)
-    val uiState: StateFlow<ComicState> = _uiState
+    private val _state = MutableStateFlow<ComicState>(Loading)
+    val state = _state.asStateFlow()
 
-    fun getComics(characterId: Int?) {
+    init {
+        handleIntent()
+    }
+
+    private fun handleIntent() {
+        viewModelScope.launch {
+            intent.collect{
+                when (it) {
+                    is FetchComics -> {
+                        getComics(it.characterId)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getComics(characterId: Int?) {
         viewModelScope.launch {
             characterId?.let { id ->
                 comicsUseCase(id)
-                    .catch {
-                        _uiState.value = ComicState.Error(
-                            it.message
-                        )
+                    .catch { throwable ->
+                        _state.update { ComicState.Error(throwable.message) }
                     }
-                    .collectLatest {
-                        when (it) {
-                            is Success<*> -> _uiState.value =
-                                ComicState.Success(it.data as List<Comic>)
+                    .collectLatest { result ->
+                        when (result) {
+                            is Success<*> -> {
+                                _state.update { ComicState.Success(result.data as List<Comic>) }
+                            }
 
-                            is Error -> _uiState.value = ComicState.Error(
-                                it.exception.message
-                            )
+                            is Error -> {
+                                _state.update { ComicState.Error(result.exception.message) }
+                            }
                         }
                     }
-            } ?: ComicState.Error(msg = "Error in getting list of comics for specified character.")
+            }
+                ?: _state.update { ComicState.Error("Error in getting list of comics for specified character.") }
         }
     }
+}
+
+sealed class ComicUiIntent {
+    data class FetchComics(val characterId: Int?): ComicUiIntent()
 }
 
 sealed class ComicState {
     data class Success(val comics: List<Comic>) : ComicState()
     data class Error(val msg: String?) : ComicState()
-    object Loading : ComicState()
+    data object Loading : ComicState()
 }

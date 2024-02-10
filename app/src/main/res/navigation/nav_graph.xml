@@ -11,7 +11,10 @@
         tools:layout="@layout/fragment_character">
         <action
             android:id="@+id/goToDetail"
-            app:destination="@id/characterDetailFragment" />
+            app:destination="@id/characterDetailFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:popUpTo="@id/characterFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
