@@ -27,15 +27,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 ) {
     private val viewModel: LoginViewModel by viewModel()
 
-    override fun onStart() {
-        super.onStart()
-
-//        val currentUser = auth.currentUser
-//        if (currentUser != null) {
-//            navigateTo(LoginFragmentDirections.goToCharacters())
-//        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         showAppBar(false)
@@ -80,7 +71,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.state.collectLatest { state ->
                 when (state) {
-                    Idle -> {}
+                    Idle -> {
+                        viewModel.isUserAlreadyLoggedIn()
+                    }
                     Loading -> {}
                     EmailError -> binding?.etEmail?.error =
                         context?.getString(R.string.email_not_valid_error)

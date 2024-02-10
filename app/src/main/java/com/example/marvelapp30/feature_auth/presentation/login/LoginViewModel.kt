@@ -89,4 +89,11 @@ class LoginViewModel : BaseViewModel<LoginUiIntent>() {
                 }
         }
     }
+
+    fun isUserAlreadyLoggedIn() {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            _state.update { NavigateToHome }
+        }
+    }
 }
