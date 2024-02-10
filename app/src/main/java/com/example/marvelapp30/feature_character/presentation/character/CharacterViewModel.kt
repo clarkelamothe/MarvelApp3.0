@@ -73,8 +73,4 @@ class CharacterViewModel(
                 }
         }
     }
-
-    fun sendError(message: String?) {
-//        sendEvent(CharacterUiEvent.Error(message))
-    }
 }
