@@ -11,6 +11,9 @@ import com.example.marvelapp30.core.ui.MarginItemDecorator
 import com.example.marvelapp30.databinding.FragmentCharacterBinding
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiIntent.FetchCharacters
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiIntent.OnCharacterPressed
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiIntent.OnListError
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiIntent.Retry
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.Error
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.Idle
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.Loading
@@ -42,8 +45,9 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
         showAppBar()
 
         setAdapter()
-        viewModel.sendEvent(FetchCharacters)
         setCollectors()
+
+        viewModel.sendEvent(FetchCharacters)
     }
 
     private fun setCollectors() {
@@ -65,11 +69,17 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
                         )
                     }
 
-                    is Error -> showSnackBar(it.throwable.message)
+                    is Error -> showSnackBar(it.message)
+                    CharacterUiState.Refreshed -> {
+                        refreshAdapter()
+                    }
                 }
             }
         }
     }
+
+    private fun refreshAdapter() = characterAdapter.refresh()
+
 
     private fun setLoadingState() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -85,11 +95,15 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
 
                 when (val throwable = errorState?.error) {
                     is IOException, is HttpException -> {
-                        viewModel.sendError(throwable.message)
+                        viewModel.sendEvent(
+                            OnListError(throwable.message ?: getString(R.string.error_generic))
+                        )
                     }
 
                     is NullPointerException -> {
-                        viewModel.sendError(getString(R.string.error_generic))
+                        viewModel.sendEvent(
+                            OnListError(throwable.message ?: getString(R.string.error_generic))
+                        )
                     }
                 }
             }
@@ -103,7 +117,9 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
                 message ?: getString(R.string.error_generic),
                 Snackbar.LENGTH_INDEFINITE
             )
-                .setAction(getString(R.string.retry_snackbar_action)) { characterAdapter.refresh() }
+                .setAction(getString(R.string.retry_snackbar_action)) {
+                    viewModel.sendEvent(Retry)
+                }
                 .show()
         }
     }

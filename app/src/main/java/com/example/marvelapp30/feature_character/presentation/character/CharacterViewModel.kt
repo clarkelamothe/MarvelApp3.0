@@ -7,8 +7,10 @@ import com.example.marvelapp30.feature_character.domain.usecase.GetCharactersUse
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiIntent
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiIntent.FetchCharacters
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiIntent.OnCharacterPressed
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiIntent.OnListError
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.Error
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.Loading
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.NavigateToDetails
 import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.Success
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,9 +34,26 @@ class CharacterViewModel(
         viewModelScope.launch {
             intent.collect { intent ->
                 when (intent) {
-                    is FetchCharacters -> getCharacters()
-                    is OnCharacterPressed -> _state.update {
-                        NavigateToDetails(intent.character)
+                    is FetchCharacters -> {
+                        getCharacters()
+                    }
+
+                    is OnCharacterPressed -> {
+                        _state.update {
+                            NavigateToDetails(intent.character)
+                        }
+                    }
+
+                    is OnListError -> {
+                        _state.update {
+                            Error(intent.message)
+                        }
+                    }
+
+                    CharacterUiIntent.Retry -> {
+                        _state.update {
+                            CharacterUiState.Refreshed
+                        }
                     }
                 }
             }
@@ -43,9 +62,11 @@ class CharacterViewModel(
 
     private fun getCharacters() {
         viewModelScope.launch {
+            _state.update { Loading }
+
             charactersUseCase()
                 .catch { throwable ->
-                    _state.update { Error(throwable) }
+                    _state.update { Error(throwable.message ?: "") }
                 }
                 .cachedIn(this).collectLatest { data ->
                     _state.update { Success(data) }
