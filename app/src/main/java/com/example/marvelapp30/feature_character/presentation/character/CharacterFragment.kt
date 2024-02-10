@@ -9,7 +9,13 @@ import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.core.ui.MarginItemDecorator
 import com.example.marvelapp30.databinding.FragmentCharacterBinding
-import com.example.marvelapp30.feature_character.presentation.model.CharacterUiEvent
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiIntent.FetchCharacters
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiIntent.OnCharacterPressed
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.Error
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.Idle
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.Loading
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.NavigateToDetails
+import com.example.marvelapp30.feature_character.presentation.character.model.CharacterUiState.Success
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,9 +33,7 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
         super.onCreate(savedInstanceState)
 
         characterAdapter = CharacterAdapter {
-            navigateTo(
-                CharacterFragmentDirections.goToDetail(it)
-            )
+            viewModel.sendEvent(OnCharacterPressed(it))
         }
     }
 
@@ -38,21 +42,30 @@ class CharacterFragment : BaseFragment<FragmentCharacterBinding>(
         showAppBar()
 
         setAdapter()
-
-        viewModel.getCharacters()
-
+        viewModel.sendEvent(FetchCharacters)
         setCollectors()
     }
 
     private fun setCollectors() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.intent.collect {
+            viewModel.state.collectLatest {
                 when (it) {
-                    CharacterUiEvent.Loading -> setLoadingState()
-                    is CharacterUiEvent.Error -> showSnackBar(it.message)
-                    is CharacterUiEvent.Success -> {
-                        characterAdapter.submitData(it.characters)
+                    Idle -> {}
+                    Loading -> {
+                        setLoadingState()
                     }
+
+                    is Success -> {
+                        characterAdapter.submitData(it.pagedData)
+                    }
+
+                    is NavigateToDetails -> {
+                        navigateTo(
+                            CharacterFragmentDirections.goToDetail(it.character)
+                        )
+                    }
+
+                    is Error -> showSnackBar(it.throwable.message)
                 }
             }
         }
