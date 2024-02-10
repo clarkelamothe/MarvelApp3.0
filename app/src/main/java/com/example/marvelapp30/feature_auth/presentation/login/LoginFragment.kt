@@ -8,28 +8,30 @@ import androidx.lifecycle.lifecycleScope
 import com.example.marvelapp30.R
 import com.example.marvelapp30.core.ui.BaseFragment
 import com.example.marvelapp30.databinding.FragmentLoginBinding
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.EmailError
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.FormValid
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.OnSubmit
-import com.example.marvelapp30.feature_auth.presentation.model.AuthUiEvent.PasswordError
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiIntent
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.EmailError
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.Error
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.FormValid
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.Idle
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.Loading
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.NavigateToHome
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.NavigateToSignup
+import com.example.marvelapp30.feature_auth.presentation.model.AuthUiState.PasswordError
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(
     FragmentLoginBinding::inflate
 ) {
-    private var auth = Firebase.auth
     private val viewModel: LoginViewModel by viewModel()
 
     override fun onStart() {
         super.onStart()
 
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            navigateTo(LoginFragmentDirections.goToCharacters())
-        }
+//        val currentUser = auth.currentUser
+//        if (currentUser != null) {
+//            navigateTo(LoginFragmentDirections.goToCharacters())
+//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,47 +61,33 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private fun setListeners() {
         binding?.btLogin?.setOnClickListener {
-            viewModel.loginPressed(
-                binding?.etEmail?.text.toString(),
-                binding?.etPassword?.text.toString()
+            viewModel.sendEvent(
+                AuthUiIntent.Login(
+                    binding?.etEmail?.text.toString(),
+                    binding?.etPassword?.text.toString()
+                )
             )
         }
 
         binding?.tvSignup?.setOnClickListener {
-            navigateTo(LoginFragmentDirections.goToSignup())
+            viewModel.sendEvent(AuthUiIntent.Signup)
         }
     }
 
     private fun setCollectors() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.eventFlow.collect { event ->
-                when (event) {
+            viewModel.state.collect { state ->
+                when (state) {
+                    Idle -> {}
+                    Loading -> {}
                     EmailError -> binding?.etEmail?.error =
                         context?.getString(R.string.email_not_valid_error)
-
                     PasswordError -> binding?.etPassword?.error =
                         context?.getString(R.string.password_not_valid_error)
-
-                    is FormValid -> binding?.btLogin?.isEnabled = event.isValid
-                    is OnSubmit -> login(event.email, event.password)
-                    else -> {}
-                }
-            }
-        }
-    }
-
-    private fun login(email: String, password: String) {
-        if (email.isNotBlank() && password.isNotBlank()) {
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(
-                            context,
-                            context?.getString(R.string.success_message),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        navigateTo(LoginFragmentDirections.goToCharacters())
-                    } else {
+                    is FormValid -> binding?.btLogin?.isEnabled = state.isValid
+                    NavigateToSignup -> navigateTo(LoginFragmentDirections.goToSignup())
+                    NavigateToHome -> navigateTo(LoginFragmentDirections.goToCharacters())
+                    Error -> {
                         Toast.makeText(
                             context,
                             context?.getString(R.string.failed_message),
@@ -107,6 +95,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                         ).show()
                     }
                 }
+            }
         }
     }
 }
